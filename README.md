@@ -22,7 +22,4 @@ cloudflare-update.sh
 
 
 
-https://github.com/Coralesoft/PiOpenwrtCloudflare/blob/19218657ece7f9d7e8d13c5ae9d0616686239fc7/Cloudflare%20on%20OpenWrt(Draft%20work%20in%20progress).txt
-
-
-
+Read Cloudflare on OpenWrt(Draft).txt for manual instructions
