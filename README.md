@@ -31,6 +31,7 @@ Manual install (DRAFT)
 Openwrt Rasberry Pi 4 Router with Cloudflare tunnels
 
 ###############################################################################
+
 prerequisites:
 Raspberry Pi 4 with OpenWrt installed and functioning correctly
 1. open ssh session
