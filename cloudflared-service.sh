@@ -2,13 +2,13 @@
 # Cloudflared tunnel service script
 #
 #######################################################################
-##																	 ##
-##	IMPORTANT this needs to be copied into the /etc/init.d/  		 ##
-##	folder with no file extention (remove the.sh) rename this file 	 ##
-##  from cloudflared-service.sh and save as just cloudlfared 		 ##
-##																	 ##
-##	https://github.com/Coralesoft/PiOpenwrtCloudflare				 ##
-##																	 ##
+##								
+##	IMPORTANT this needs to be copied into the /etc/init.d/ 
+##	folder with no file extention (remove the.sh) rename this file
+##  	from cloudflared-service.sh and save as just cloudlfared
+##							
+##	https://github.com/Coralesoft/PiOpenwrtCloudflare
+##								
 #######################################################################
 
 START=38
