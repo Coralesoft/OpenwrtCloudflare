@@ -37,9 +37,9 @@ echo  " "
 echo "Changing permisions complete"
 echo " "
 echo "Restarting the tunnel"
-
+echo " "
 /etc/init.d/cloudflared start
-
+echo " "
 echo "Upgrade has been completed"
 echo "***************************************************"
 
