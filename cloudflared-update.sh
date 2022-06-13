@@ -1,5 +1,11 @@
 #!/bin/sh /etc/rc.common
 # Cloudflared daemon update
+# run this as a service to regularly update or call as needed
+# Setup a cron job to do this as a scheduled task
+# example Run at 11:38 am each day
+# 38 11 * * * /root/cloudflared-update.sh
+# Example run at midnight each day
+# 0 0 * * * /root/cloudflared-update.sh
 #
 echo "***************************************************"
 echo "**             updating cloudflared              **"
