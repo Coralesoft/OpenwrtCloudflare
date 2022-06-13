@@ -1,0 +1,12 @@
+# an example yml file for the inital config
+tunnel: 2g1c1ada-b3d4-4378-9219-3511a39b3158
+credentials-file: /root/.cloudflared/2g1c1ada-b3d4-4378-9219-3511a39b3158.json
+
+ingress:
+  - hostname: opent.mydomain.nz
+    service: http://localhost:80
+  - hostname: netdata.mydomain.nz
+    service: http://localhost:8880
+  - hostname: ssh.mydomain.nz
+    service: ssh://192.168.1.1:22
+  - service: http_status:404
