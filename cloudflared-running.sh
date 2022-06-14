@@ -3,9 +3,9 @@
 # run this as a service to check if cloudflare is running
 # Setup a cron job to do this as a scheduled task
 # example Run every 15 minutes
-# */15  * * * * /root/cloudflared-running.sh
+# */15  * * * * /usr/sbin/cloudflared-running.sh
 # Example run every 10 minutes
-# */10  * * * * /root/cloudflared-running.sh
+# */10  * * * * /usr/sbin/cloudflared-running.sh
 #
 echo " "
 echo "***************************************************"
