@@ -24,9 +24,9 @@ start() {
         # Start the cloudflare service commands to launch cloidflared tunnel
 		# Supplying the config directory and tunnel name plus log file.
 		# Update the config and tunnel name to suit your setup
-		#/usr/bin/cloudflared tunnel --config <<CONFIG LOCATION>> run <<TUNNELNAME>> &> /root/.cloudflared/<<LOGFILE>> &
+		#/usr/sbin/cloudflared tunnel --config <<CONFIG LOCATION>> run <<TUNNELNAME>> &> /root/.cloudflared/<<LOGFILE>> &
         
-		/usr/bin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
+		/usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
         
 		# execute the tunnel and log to the tunnellogs file
 }
@@ -43,7 +43,7 @@ restart() {
 		# give it time to clean up
         sleep 2
 		# Start the service
-        /usr/bin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
+        /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
 }
 
 # end of script
