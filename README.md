@@ -3,7 +3,7 @@
 
 This is a colection of scripts and instructions to on how to setup a cloudflare tunnel on an Rasberry Pi4 running as a OpenWrt router
 
-## Scripts:
+### Scripts:
 ## cloudflare-service.sh
 
   This script is used to run cloudflared as a service on OpenWrt\
@@ -34,5 +34,5 @@ Example run every 10 minutes\
 */10  * * * * /root/cloudflared-running.sh
 
 ## Install and setup
-Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process\
+Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process
 
