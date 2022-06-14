@@ -15,7 +15,7 @@ This is a colection of scripts and instructions to on how to setup a cloudflare 
   
   This service will now appear in the startup screen
 
-###### cloudflare-update.sh
+## cloudflare-update.sh
 
   This script will download the latest copy of cloudflared from thier github and replace the exisitng binary
   
@@ -31,7 +31,7 @@ This is a colection of scripts and instructions to on how to setup a cloudflare 
   
   0 0 * * * /root/cloudflared-update.sh
   
-###### cloudflared-running.sh
+## cloudflared-running.sh
 
 This script is used to check if the cloudflared service is running and will restart the service if its down
 
