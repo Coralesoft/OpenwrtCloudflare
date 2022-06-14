@@ -46,6 +46,6 @@ Example run every 10 minutes
 */10  * * * * /root/cloudflared-running.sh
 
 
-
+## Install and setup
 Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process
 
