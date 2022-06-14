@@ -22,8 +22,10 @@ cloudflare-update.sh
   this can also be used for the inital download and setup of the binary
  
  Setup a cron job to do this as a scheduled task
+  
   example Run at 11:38 am each day
   38 11 * * * /root/cloudflared-update.sh
+  
   Example run at midnight each day
   0 0 * * * /root/cloudflared-update.sh
 
