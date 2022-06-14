@@ -1,8 +1,11 @@
 #!/bin/sh /etc/rc.common
 # Cloudflared install
-#
+# Script by C. Brown 2022
 echo "***************************************************"
 echo "**             Installing cloudflared            **"
+echo "**                                               **"
+echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
+echo "** 				                               **"
 echo "***************************************************"
 echo " "
 opkg update
@@ -22,7 +25,12 @@ echo " "
 echo "Cloudflared is installed "
 echo " "
 echo "Time to setup the tunnel"
+echo "Open a web browser and log into your cloudflare account in readiness"
 echo "You will be prompted to login into your account with a Cloudflare URL "
+echo "Copy this URL from the console and paste into your web browser"
+echo "Login process will be triggered in 10 seconds"
+echo " "
+sleep 10
 cloudflared tunnel login
 echo " "
 echo "Create a tunnel once you have logged in"
