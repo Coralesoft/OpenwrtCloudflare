@@ -7,7 +7,7 @@ Scripts:
 cloudflare-service.sh
 
   This script is used to run cloudflared as a service on OpenWrt
-  IMPORTANT this needs to be copied into the /etc/init.d/ folder with no file extention (remove the.sh) 
+  IMPORTANT this needs to be copied into the /etc/init.d/ folder with no file extention (remove the.sh)
   rename this file from cloudflared-service.sh and save as just cloudlfared and will look like
   /etc/init.d/cloudflared
   
