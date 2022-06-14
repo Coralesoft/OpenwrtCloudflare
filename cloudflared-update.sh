@@ -3,9 +3,9 @@
 # run this as a service to regularly update or call as needed
 # Setup a cron job to do this as a scheduled task
 # example Run at 11:38 am each day
-# 38 11 * * * /root/cloudflared-update.sh
+# 38 11 * * * /usr/sbin/cloudflared-update.sh
 # Example run at midnight each day
-# 0 0 * * * /root/cloudflared-update.sh
+# 0 0 * * * /usr/sbin/cloudflared-update.sh
 #
 echo "***************************************************"
 echo "**             updating cloudflared              **"
@@ -27,12 +27,12 @@ echo " "
 echo "Completed download"
 echo " "
 echo "Replacing cloudflared"
-mv cloudflared-linux-arm64 /usr/bin/cloudflared
+mv cloudflared-linux-arm64 /usr/sbin/cloudflared
 echo " "
 echo "Replacement is complete"
 echo " "
 echo "Setting permisions"
-chmod 755 /usr/bin/cloudflared
+chmod 755 /usr/sbin/cloudflared
 echo  " "
 echo "Changing permisions complete"
 echo " "
