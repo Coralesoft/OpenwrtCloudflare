@@ -28,4 +28,5 @@ cloudflare-update.sh
 
 
 
-Read Cloudflare on OpenWrt(Draft).txt for manual instructions
+Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process
+
