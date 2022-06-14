@@ -20,18 +20,18 @@ This is a colection of scripts and instructions to on how to setup a cloudflare 
   Setup a cron job to do this as a scheduled task
   
   Example Run at 11:38 am each day\
-  38 11 * * * /root/cloudflared-update.sh\
+  38 11 * * * /usr/sbin/cloudflared-update.sh\
   Example run at midnight each day\
-  0 0 * * * /root/cloudflared-update.sh
+  0 0 * * * /usr/sbin/cloudflared-update.sh
   
 ## cloudflared-running.sh
 
 This script is used to check if the cloudflared service is running and will restart the service if its down\
 Setup a cron job to do this as a scheduled task\
 example Run every 15 minutes\
-*/15  * * * * /root/cloudflared-running.sh\
+*/15  * * * * /usr/sbin/cloudflared-running.sh\
 Example run every 10 minutes\
-*/10  * * * * /root/cloudflared-running.sh
+*/10  * * * * /usr/sbin/cloudflared-running.sh
 
 ## Install and setup
 Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process
