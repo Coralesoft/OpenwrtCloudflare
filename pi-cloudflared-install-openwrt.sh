@@ -199,10 +199,10 @@ else
 	echo "Upgrade has been completed"
 	echo "***************************************************"
 fi
-
 exit 0
 
 EOF
+
 echo " "
 chmod 755 /usr/sbin/cloudflared-update
 echo " "
