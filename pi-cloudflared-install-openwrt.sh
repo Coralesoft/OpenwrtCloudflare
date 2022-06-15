@@ -5,7 +5,7 @@ echo "***************************************************"
 echo "**             Installing cloudflared            **"
 echo "**                                               **"
 echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
-echo "** 				               **"
+echo "** C. Brown   dev@coralesoft.nz                  **"
 echo "***************************************************"
 echo " "
 opkg update
@@ -77,15 +77,15 @@ echo " "
 cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
-#
+# Script by C.Brown dev@coralesoft.nz
 #######################################################################
 ##								
-##	IMPORTANT this needs to be copied into the /etc/init.d/  
-##	folder with no file extention (remove the.sh) rename this file
-##  from cloudflared-service.sh and save as just cloudlfared 		
-##									
-##	https://github.com/Coralesoft/PiOpenwrtCloudflare	
+##	IMPORTANT this needs to be copied into the /etc/init.d/  	
+##	folder with no file extention (remove the.sh) rename this file 
+##  from cloudflared-service.sh and save as just cloudlfared 
 ##								
+##	https://github.com/Coralesoft/PiOpenwrtCloudflare
+##					
 #######################################################################
 
 START=38
@@ -145,45 +145,60 @@ cat << EOF > /usr/sbin/cloudflared-update
 # run this as a service to regularly update or call as needed
 # Setup a cron job to do this as a scheduled task
 # example Run at 11:38 am each day
-# 38 11 * * * /root/cloudflared-update.sh
+# 38 11 * * * /root/cloudflared-update-check.sh
 # Example run at midnight each day
-# 0 0 * * * /root/cloudflared-update.sh
+# 0 0 * * * /root/cloudflared-update-check.sh
+# 
+# Script by C.Brown dev@coralesoft.nz
 #
 echo "***************************************************"
-echo "**             updating cloudflared              **"
+echo "**      Updating cloudflared check               **"
 echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
 echo "***************************************************"
-# commands to update cloidflared tunnel
+# commands to update cloudflared tunnel
 echo " "
-msgf="Killing current tunnel pid "
-PID=$(pidof cloudflared)
-echo $msgf $PID
-
-killall -9 cloudflared
-
 echo " "
-echo "Downloading new version"
+echo "Checking new version"
 echo " "
 wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
 echo " "
 echo "Completed download"
 echo " "
-echo "Replacing cloudflared"
-mv cloudflared-linux-arm64 /usr/sbin/cloudflared
-echo " "
-echo "Replacement is complete"
-echo " "
-echo "Setting permisions"
-chmod 755 /usr/sbin/cloudflared
-echo  " "
-echo "Changing permisions complete"
-echo " "
-echo "Restarting the tunnel"
-
-/etc/init.d/cloudflared start
-
-echo "Upgrade has been completed"
-echo "***************************************************"
+echo "Checking version"
+VERSION_OLD=$(cloudflared -v)
+chmod 755 ./cloudflared-linux-arm64
+VERSION_NEW=$(./cloudflared-linux-arm64 -v)
+echo "old version: "$VERSION_OLD
+echo "new version: "$VERSION_NEW
+if [ "$VERSION_OLD" = "$VERSION_NEW" ]
+then
+	echo " "
+	echo "No Change cleaning up"
+	echo " "
+	rm ./cloudflared-linux-arm64
+else
+	echo "New version available"
+	msgf="Killing current tunnel pid "
+	PID=$(pidof cloudflared)
+	echo $msgf $PID
+	killall -9 cloudflared
+	echo "Replacing cloudflared"
+	mv cloudflared-linux-arm64 /usr/sbin/cloudflared
+	echo " "
+	echo "Replacement is complete"
+	echo " "
+	echo "Setting permisions"
+	chmod 755 /usr/sbin/cloudflared
+	echo  " "
+	echo "Changing permisions complete"
+	echo " "
+	echo "Restarting the tunnel"
+	/etc/init.d/cloudflared start
+	echo " "
+	echo "***************************************************"
+	echo "Upgrade has been completed"
+	echo "***************************************************"
+fi
 
 exit 0
 
@@ -206,6 +221,7 @@ cat << EOF > /usr/sbin/cloudflared-running
 # */15  * * * * /root/cloudflared-running.sh
 # Example run every 10 minutes
 # */10  * * * * /root/cloudflared-running.sh
+# Script by C.Brown dev@coralesoft.nz
 #
 echo " "
 echo "***************************************************"
