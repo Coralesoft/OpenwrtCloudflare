@@ -7,7 +7,7 @@
 # Example run at midnight each day
 # 0 0 * * * /root/cloudflared-update-check.sh
 # note pull checksum and test dont download if same
-# C.Brown 15/06/2022
+# C.Brown
 #
 echo "***************************************************"
 echo "**      Updating cloudflared check               **"
@@ -26,6 +26,8 @@ echo "Checking version"
 VERSION_OLD=$(cloudflared -v)
 chmod 755 ./cloudflared-linux-arm64
 VERSION_NEW=$(./cloudflared-linux-arm64 -v)
+echo "old version: "$VERSION_OLD
+echo "new version: "$VERSION_NEW
 if [ "$VERSION_OLD" = "$VERSION_NEW" ]
 then
 	echo " "
