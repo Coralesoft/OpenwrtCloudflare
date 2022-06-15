@@ -24,6 +24,18 @@ The script pulls down the latest version of cloduflared and installs it, sets up
   
   This service will now appear in the startup screen
 
+## cloudflared-update-check.sh
+
+  This script will check if there is a newer version of cloudflaread and if there is\ 
+  a newer version download the latest copy of cloudflared from thier github and replace the exisitng binary\
+  
+  Setup a cron job to do this as a scheduled task (examples below)
+  
+  Example Run at 11:38 am each day\
+  38 11 * * * /usr/sbin/cloudflared-update.sh\
+  Example run at midnight each day\
+  0 0 * * * /usr/sbin/cloudflared-update.sh
+
 ## cloudflare-update.sh
 
   This script will download the latest copy of cloudflared from thier github and replace the exisitng binary\
