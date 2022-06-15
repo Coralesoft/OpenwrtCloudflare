@@ -1,19 +1,23 @@
 #!/bin/sh /etc/rc.common
-# Cloudflared daemon update
-# run this as a service to regularly update or call as needed
+# Cloudflared install
+# Script to install update cloudflared when a new version is released
+# Copyright (C) 2022 C. Brown (dev@coralesoft)
+# GNU General Public License
+# Last revised 15/06/2022
+# version 1.0
+#
 # Setup a cron job to do this as a scheduled task
 # example Run at 11:38 am each day
 # 38 11 * * * /root/cloudflared-update-check.sh
 # Example run at midnight each day
 # 0 0 * * * /root/cloudflared-update-check.sh
-# note pull checksum and test dont download if same
-# C.Brown
+# 
+#
 #
 echo "***************************************************"
 echo "**      Updating cloudflared check               **"
 echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
 echo "***************************************************"
-# commands to update cloudflared tunnel
 echo " "
 echo " "
 echo "Checking new version"
