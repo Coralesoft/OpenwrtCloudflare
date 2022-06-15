@@ -8,7 +8,7 @@ This is a colection of scripts and instructions to on how to setup a cloudflare 
 
 ## pi-cloudflared-install-openwrt.sh
 This script will completed the full install of Cloudflare tunnel onto a Raspberry Pi running OpenWrt
-The script pulls down the latest version of cloduflared and installs it 
+The script pulls down the latest version of cloudflared and installs it 
 - sets up the service to run it 
 - creates the required config in the cloudflare console and  system files
 - sets up the service to check for new updates daily 
