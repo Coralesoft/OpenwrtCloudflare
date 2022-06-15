@@ -1,14 +1,19 @@
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
-#
+# Script run cloudflared as a service 
+# Copyright (C) 2022 C. Brown (dev@coralesoft)
+# GNU General Public License
+# Last revised 15/06/2022
+# version 1.0
+# 
 #######################################################################
-##								
-##	IMPORTANT this needs to be copied into the /etc/init.d/ 
-##	folder with no file extention (remove the.sh) rename this file
-##  	from cloudflared-service.sh and save as just cloudlfared
+##					
+##	IMPORTANT this needs to be copied into the /etc/init.d/  
+##	folder with no file extention (remove the.sh) rename this file 
+##  from cloudflared-service.sh and save as just cloudlfared 	
 ##							
 ##	https://github.com/Coralesoft/PiOpenwrtCloudflare
-##								
+##							
 #######################################################################
 
 START=38
@@ -24,9 +29,9 @@ start() {
         # Start the cloudflare service commands to launch cloidflared tunnel
 		# Supplying the config directory and tunnel name plus log file.
 		# Update the config and tunnel name to suit your setup
-		#/usr/sbin/cloudflared tunnel --config <<CONFIG LOCATION>> run <<TUNNELNAME>> &> /root/.cloudflared/<<LOGFILE>> &
+		#/usr/bin/cloudflared tunnel --config <<CONFIG LOCATION>> run <<TUNNELNAME>> &> /root/.cloudflared/<<LOGFILE>> &
         
-		/usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
+		/usr/bin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
         
 		# execute the tunnel and log to the tunnellogs file
 }
@@ -43,7 +48,7 @@ restart() {
 		# give it time to clean up
         sleep 2
 		# Start the service
-        /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
+        /usr/bin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun &> /root/.cloudflared/tunnellogs.txt &
 }
 
 # end of script
