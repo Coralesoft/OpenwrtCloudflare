@@ -1,11 +1,17 @@
 #!/bin/sh /etc/rc.common
 # Cloudflared install
-# Script by C. Brown 2022
+# Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
+# Copyright (C) 2022 C. Brown (dev@coralesoft)
+# GNU General Public License
+# Last revised 15/06/2022
+# version 1.0
 echo "***************************************************"
 echo "**             Installing cloudflared            **"
 echo "**                                               **"
-echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
-echo "** C. Brown   dev@coralesoft.nz                  **"
+echo "**   github.com/Coralesoft/PiOpenwrtCloudflare   **"
+echo "** 				               **"
+echo "** 			dev@coralesoft.nz      **"
+echo "** 				               **"
 echo "***************************************************"
 echo " "
 opkg update
@@ -79,13 +85,13 @@ cat << EOF > /etc/init.d/cloudflared
 # Cloudflared tunnel service script
 # Script by C.Brown dev@coralesoft.nz
 #######################################################################
-##								
-##	IMPORTANT this needs to be copied into the /etc/init.d/  	
-##	folder with no file extention (remove the.sh) rename this file 
+##									
+##	IMPORTANT this needs to be copied into the /etc/init.d/
+##	folder with no file extention (remove the.sh) rename this file
 ##  from cloudflared-service.sh and save as just cloudlfared 
-##								
+##													
 ##	https://github.com/Coralesoft/PiOpenwrtCloudflare
-##					
+##													
 #######################################################################
 
 START=38
@@ -199,10 +205,10 @@ else
 	echo "Upgrade has been completed"
 	echo "***************************************************"
 fi
+
 exit 0
 
 EOF
-
 echo " "
 chmod 755 /usr/sbin/cloudflared-update
 echo " "
