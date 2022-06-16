@@ -46,12 +46,8 @@ The script pulls down the latest version of cloudflared and installs it
 
   This script will download the latest copy of cloudflared from thier github and replace the exisitng binary\
   this can also be used for the inital download and setup of the binary\
-  Setup a cron job to do this as a scheduled task
+ 
   
-  Example Run at 11:38 am each day\
-  38 11 * * * /usr/sbin/cloudflared-update.sh\
-  Example run at midnight each day\
-  0 0 * * * /usr/sbin/cloudflared-update.sh
 
 ## Install and setup
 Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process
