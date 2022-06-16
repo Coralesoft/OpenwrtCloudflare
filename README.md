@@ -45,7 +45,7 @@ The script pulls down the latest version of cloudflared and installs it
 ## cloudflare-update.sh
 
   This script will download the latest copy of cloudflared from thier github and replace the exisitng binary\
-  this can also be used for the inital download and setup of the binary\
+  this can also be used for the inital download and setup of the binary
  
   
 
