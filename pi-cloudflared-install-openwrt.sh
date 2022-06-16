@@ -134,21 +134,25 @@ echo " "
 
 cat << EOF > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
-# Cloudflared daemon update
-# run this as a service to regularly update or call as needed
+# Cloudflared install
+# Script to install update cloudflared when a new version is released
+# Copyright (C) 2022 C. Brown (dev@coralesoft)
+# GNU General Public License
+# Last revised 15/06/2022
+# version 1.0
+#
 # Setup a cron job to do this as a scheduled task
 # example Run at 11:38 am each day
 # 38 11 * * * /root/cloudflared-update-check.sh
 # Example run at midnight each day
 # 0 0 * * * /root/cloudflared-update-check.sh
 # 
-# Script by C.Brown dev@coralesoft.nz
+#
 #
 echo "***************************************************"
 echo "**      Updating cloudflared check               **"
 echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
 echo "***************************************************"
-# commands to update cloudflared tunnel
 echo " "
 echo " "
 echo "Checking new version"
@@ -171,10 +175,10 @@ then
 	rm ./cloudflared-linux-arm64
 else
 	echo "New version available"
-	msgf="Killing current tunnel pid "
+	msgf="Shutting down tunnel "
 	PID=$(pidof cloudflared)
 	echo $msgf $PID
-	killall -9 cloudflared
+	/etc/init.d/cloudflared stop
 	echo "Replacing cloudflared"
 	mv cloudflared-linux-arm64 /usr/sbin/cloudflared
 	echo " "
@@ -192,9 +196,7 @@ else
 	echo "Upgrade has been completed"
 	echo "***************************************************"
 fi
-
 exit 0
-
 EOF
 echo " "
 chmod 755 /usr/sbin/cloudflared-update
