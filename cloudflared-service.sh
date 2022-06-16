@@ -34,10 +34,6 @@ start_service() {
     procd_close_instance
 }
 
-stop_service() {
-	killall -9 cloudflared
-}
-
 reload_service(){
 	stop
 	start
