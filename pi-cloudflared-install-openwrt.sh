@@ -9,9 +9,9 @@ echo "***************************************************"
 echo "**             Installing cloudflared            **"
 echo "**                                               **"
 echo "**   github.com/Coralesoft/PiOpenwrtCloudflare   **"
-echo "** 				               **"
-echo "** 			dev@coralesoft.nz      **"
-echo "** 				               **"
+echo "** 				                               **"
+echo "** 			dev@coralesoft.nz                  **"
+echo "** 				                               **"
 echo "***************************************************"
 echo " "
 opkg update
@@ -83,16 +83,23 @@ echo " "
 cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
-# Script by C.Brown dev@coralesoft.nz
+# Script run cloudflared as a service 
+# Copyright (C) 2022 C. Brown (dev@coralesoft)
+# GNU General Public License
+# Last revised 15/06/2022
+# version 1.0
+# 
 #######################################################################
-##									
-##	IMPORTANT this needs to be copied into the /etc/init.d/
-##	folder with no file extention (remove the.sh) rename this file
+##																
+##	IMPORTANT this needs to be copied into the /etc/init.d/  	
+##	folder with no file extention (remove the.sh) rename this file 	
 ##  from cloudflared-service.sh and save as just cloudlfared 
 ##													
-##	https://github.com/Coralesoft/PiOpenwrtCloudflare
-##													
+##	https://github.com/Coralesoft/PiOpenwrtCloudflare	
+##														
 #######################################################################
+
+USE_PROCD=1
 
 START=38
 STOP=50
@@ -101,40 +108,20 @@ RESTART=55
 # fix the cf buffer issues
 sysctl -w net.core.rmem_max=2500000
 
-#start commands
-start() {
-        echo starting
-        # Start the cloudflare service commands to launch cloidflared tunnel
-		# Supplying the config directory and tunnel name plus log file.
-		# Update the config and tunnel name to suit your setup
-		#/usr/bin/cloudflared tunnel --config <<CONFIG LOCATION>> run <<TUNNELNAME>> &> /root/.cloudflared/<<LOGFILE>> &
-        
-		/usr/bin/cloudflared tunnel --config /root/.cloudflared/config.yml run $TUNNAME &> /root/.cloudflared/tunnellogs.txt &
-        
-		# execute the tunnel and log to the tunnellogs file
+start_service() {
+    procd_open_instance
+    procd_set_param command /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
+    procd_set_param user
+    procd_close_instance
 }
 
-stop() {
-        echo stopping
-        # Kill the running tunnel
-        killall -9 cloudflared
+reload_service(){
+        stop
+        start
 }
-restart() {
-		# restart for the service
-        echo restarting
-        killall -9 cloudflared
-		# give it time to clean up
-        sleep 2
-		# Start the service
-        /usr/bin/cloudflared tunnel --config /root/.cloudflared/config.yml run $TUNNAME &> /root/.cloudflared/tunnellogs.txt &
-}
-
-# end of script
-
-
-// finish the service file 
-exit 0
-
 EOF
 echo " "
 echo "Setting Permissions"
@@ -218,48 +205,6 @@ EOF
 echo " "
 echo "installing helper service for ensuring tunnel is running"
 echo " "
-cat << EOF > /usr/sbin/cloudflared-running
-#!/bin/sh /etc/rc.common
-# Cloudflared is running check
-# run this as a service to check if cloudflare is running
-# Setup a cron job to do this as a scheduled task
-# example Run every 15 minutes
-# */15  * * * * /root/cloudflared-running.sh
-# Example run every 10 minutes
-# */10  * * * * /root/cloudflared-running.sh
-# Script by C.Brown dev@coralesoft.nz
-#
-echo " "
-echo "***************************************************"
-echo "**      Checking if cloudflared is running       **"
-echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
-echo "***************************************************"
-# commands to update cloidflared tunnel
-echo " "
-PID=$(pidof cloudflared)
-if [ -z "$PID" ]
-then
-      echo "Cloudflare is down"
-	  echo "Restarting Cloudflare"
-	  echo " "
-	  /etc/init.d/cloudflared start
-	  echo " "
-
-else
-      echo "Cloudflare is Up"
-	  echo " "
-fi
-
-exit 0
-
-EOF
-
-echo " "
-chmod 755 /usr/sbin/cloudflared-running
-echo " "
-cat << EOF >> /etc/crontabs/root
-*/15  * * * * /usr/sbin/cloudflared-running
-EOF
 echo " "
 echo "***************************************************"
 echo "**             Install is complete               **"
