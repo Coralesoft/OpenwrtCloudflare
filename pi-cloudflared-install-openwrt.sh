@@ -4,14 +4,19 @@
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
 # Last revised 15/06/2022
-# version 1.0
+# version 2022.06.16
+##################################################################
+# version History
+# 1.0: 		Inital release
+# 2022.06.16: Updated service script and removed monitoring script
+#
 echo "***************************************************"
 echo "**             Installing cloudflared            **"
 echo "**                                               **"
 echo "**   github.com/Coralesoft/PiOpenwrtCloudflare   **"
-echo "** 				                               **"
-echo "** 			dev@coralesoft.nz                  **"
-echo "** 				                               **"
+echo "** 				               **"
+echo "** 			dev@coralesoft.nz      **"
+echo "** 				               **"
 echo "***************************************************"
 echo " "
 opkg update
