@@ -37,9 +37,6 @@ start_service() {
     procd_close_instance
 }
 
-reload_service(){
-	stop
-	start
-}
+
 
 # end of script
