@@ -40,10 +40,10 @@ then
 	rm ./cloudflared-linux-arm64
 else
 	echo "New version available"
-	msgf="Killing current tunnel pid "
+	msgf="Shutting down tunnel "
 	PID=$(pidof cloudflared)
 	echo $msgf $PID
-	killall -9 cloudflared
+	/etc/init.d/cloudflared stop
 	echo "Replacing cloudflared"
 	mv cloudflared-linux-arm64 /usr/sbin/cloudflared
 	echo " "
