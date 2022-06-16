@@ -123,10 +123,6 @@ start_service() {
     procd_close_instance
 }
 
-reload_service(){
-        stop
-        start
-}
 EOF
 echo " "
 echo "Setting Permissions"
