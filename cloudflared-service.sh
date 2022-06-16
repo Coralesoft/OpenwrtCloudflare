@@ -3,9 +3,12 @@
 # Script run cloudflared as a service 
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 15/06/2022
-# version 1.0
+# Last revised 16/06/2022
+# version 1.1
 # 
+# Revision history
+# 15/06/2022 Inital release
+# 16/06/2022 Rewrote using procd
 #######################################################################
 ##					
 ##	IMPORTANT this needs to be copied into the /etc/init.d/  
