@@ -6,13 +6,6 @@
 # Last revised 15/06/2022
 # version 1.0
 #
-# run this as a service to regularly update or call as needed
-# Setup a cron job to do this as a scheduled task
-# example Run at 11:38 am each day
-# 38 11 * * * /root/cloudflared-update.sh
-# Example run at midnight each day
-# 0 0 * * * /root/cloudflared-update.sh
-# note pull checksum and test dont download if same
 #
 echo "***************************************************"
 echo "**             updating cloudflared              **"
@@ -20,12 +13,10 @@ echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
 echo "***************************************************"
 # commands to update cloudflared tunnel
 echo " "
-msgf="Killing current tunnel pid "
+msgf="Shutting down tunnel if running "
 PID=$(pidof cloudflared)
 echo $msgf $PID
-
-killall -9 cloudflared
-
+/etc/init.d/cloudflared stop
 echo " "
 echo "Downloading new version"
 echo " "
