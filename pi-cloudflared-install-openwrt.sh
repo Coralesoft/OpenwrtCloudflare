@@ -72,11 +72,11 @@ tunnel: $UUID
 credentials-file: $JSON
 
 ingress:
-  - hostname: opent.mydomain.nz
-    service: http://localhost:80
-  - hostname: netdata.mydomain.nz
+  - hostname: $DOMAIN
     service: http://localhost:8880
-  - hostname: ssh.mydomain.nz
+  - hostname: opent.domain.nz
+    service: http://localhost:80
+  - hostname: ssh.domain.nz
     service: ssh://192.168.1.1:22
   - service: http_status:404
 EOF
@@ -133,11 +133,9 @@ echo "Setting Permissions"
 chmod 755 /etc/init.d/cloudflared
 echo " "
 /etc/init.d/cloudflared enable
-echo "Please enable when your ready in the Luci startup page"
 echo " "
 echo "installing helper service for Cloudflare updates"
 echo " "
-
 cat << "EOF" > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
 # Cloudflared install
@@ -210,7 +208,6 @@ echo " "
 sed -i -e '1i30 12 * * * /usr/sbin/cloudflared-update' /etc/crontabs/root
 echo " "
 rm cloudflared-linux-arm64
-echo "installing helper service for ensuring tunnel is running"
 echo " "
 echo " "
 echo "***************************************************"
