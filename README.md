@@ -23,34 +23,3 @@ The script pulls down the latest version of cloudflared and installs it
 This Script cleanly uninstalls / removes cloudflared.
 
 
-## cloudflare-service.sh
-
-  This script is used to run cloudflared as a service on OpenWrt \
-  IMPORTANT this needs to be copied into the /etc/init.d/ folder with no file extention (remove the.sh)\
-  rename this file from cloudflared-service.sh and save as just cloudlfared and will look like \
-  /etc/init.d/cloudflared
-  
-  This service will now appear in the startup screen
-
-## cloudflared-update-check.sh
-
-  This script will check if there is a newer version of cloudflaread and if there is\ 
-  a newer version download the latest copy of cloudflared from thier github and replace the exisitng binary\
-  
-  Setup a cron job to do this as a scheduled task (examples below)
-  
-  Example Run at 11:38 am each day\
-  38 11 * * * /usr/sbin/cloudflared-update.sh\
-  Example run at midnight each day\
-  0 0 * * * /usr/sbin/cloudflared-update.sh
-
-## cloudflare-update.sh
-
-  This script will download the latest copy of cloudflared from thier github and replace the exisitng binary\
-  this can also be used for the inital download and setup of the binary
- 
-  
-
-## Install and setup
-Read Cloudflare on OpenWrt(Draft work in progress).txt for manual instructions to go through the whole process
-
