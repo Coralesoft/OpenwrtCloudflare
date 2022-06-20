@@ -37,35 +37,56 @@ chmod 755 /usr/sbin/cloudflared
 echo " "
 echo "Cloudflared is installed "
 echo " "
+echo "#############################################################################"
+echo " "
 echo "Time to setup the tunnel"
 echo "Open a web browser and log into your cloudflare account in readiness"
 echo "You will be prompted to login into your account with a Cloudflare URL "
 echo "Copy this URL from the console and paste into your web browser"
 echo "Login process will be triggered in 10 seconds"
 echo " "
+echo " "
+echo "#############################################################################"
 sleep 10
 cloudflared tunnel login
 echo " "
+echo " "
+echo "#############################################################################"
+echo " "
 echo "Create a tunnel once you have logged in"
+echo " "
+echo "#############################################################################"
 read -p "Enter your tunnel name: " TUNNAME
+echo " "
 cloudflared tunnel create $TUNNAME
 echo " "
 echo "Populating Tunnel List "
 cloudflared tunnel list
-sleep 10
+echo " "
+echo "#############################################################################"
 echo " "
 echo "We are now routing the tunnel to the domain"
+echo " "
 read -p "Enter Your Domain name e.g. access.mydomain.com: " DOMAIN
 echo " "
 cloudflared tunnel route dns $TUNNAME $DOMAIN
 echo " "
+echo "#############################################################################"
+echo " "
 echo "Generating base config.yml file"
+echo " "
+echo "#############################################################################"
+echo " "
 JSON=$(find /root/.cloudflared/ -iname '*json')
 UUID=${JSON::-5}
 UUID=${UUID:(-36)}
 echo " "
+echo "#############################################################################"
+echo " "
 echo "Generating config for tunnel: "$UUID
-
+echo " "
+echo "#############################################################################"
+echo " "
 cat << EOF > /root/.cloudflared/config.yml
 # an example yml file for the inital config
 tunnel: $UUID
@@ -79,12 +100,21 @@ ingress:
     service: ssh://192.168.1.1:22
   - service: http_status:404
 EOF
-
+echo " "
+echo "#############################################################################"
+echo " "
 echo "Config file /root/cloudflared/config.yml"
 echo "has been generate for tunnel: "$UUID
 echo " Update the ingress section as needed"
 echo " "
-echo "Settting the service"
+echo "#############################################################################"
+echo " "
+echo " "
+echo "#############################################################################"
+echo " "
+echo "Settting up the service"
+echo " "
+echo "#############################################################################"
 echo " "
 echo " "
 cat << EOF > /etc/init.d/cloudflared
@@ -127,7 +157,11 @@ chmod 755 /etc/init.d/cloudflared
 echo " "
 /etc/init.d/cloudflared enable
 echo " "
+echo "#############################################################################"
+echo " "
 echo "installing helper service for Cloudflare updates"
+echo " "
+echo "#############################################################################"
 echo " "
 cat << "EOF" > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
@@ -212,6 +246,5 @@ echo " "
 echo "Opening config file"
 sleep 5
 nano /root/.cloudflared/config.yml
-echo ""
 /etc/init.d/cloudflared start
 exit 0
