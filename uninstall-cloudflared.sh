@@ -3,8 +3,8 @@
 # Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 19/06/2022
-# version 2202.06.18
+# Last revised 20/06/2022
+# version 2202.06.2
 #
 echo " "
 echo "Removing Cloudfared and its config"
