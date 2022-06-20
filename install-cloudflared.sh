@@ -20,8 +20,8 @@ echo "**            dev@coralesoft.nz                  **"
 echo "**                                               **"
 echo "***************************************************"
 echo " "
-#opkg update
-#opkg install nano wget-ssl
+opkg update
+opkg install nano wget-ssl
 echo "Downloading Cloudflared "
 echo " "
 wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
