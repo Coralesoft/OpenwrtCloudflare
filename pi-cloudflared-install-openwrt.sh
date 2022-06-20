@@ -3,32 +3,34 @@
 # Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 15/06/2022
-# version 2022.06.16
-##################################################################
-# version History
-# 1.0: 		Inital release
-# 2022.06.16: Updated service script and removed monitoring script
+# Last revised 20/06/2022
+# version 2022.06.20
+#-----------------------------------------------------------------------
+# Version               Notes:
+# 1.0                   Inital Release
+# 2022.06.20            Script fixes and updates
+#
 #
 echo "***************************************************"
 echo "**             Installing cloudflared            **"
 echo "**                                               **"
 echo "**   github.com/Coralesoft/PiOpenwrtCloudflare   **"
-echo "** 				               **"
-echo "** 			dev@coralesoft.nz      **"
-echo "** 				               **"
+echo "**                                               **"
+echo "**            dev@coralesoft.nz                  **"
+echo "**                                               **"
 echo "***************************************************"
 echo " "
-opkg update
-opkg install nano wget-ssl
+#opkg update
+#opkg install nano wget-ssl
 echo "Downloading Cloudflared "
 echo " "
 wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
 echo " "
+chmod 755 /usr/sbin/cloudflared-linux-arm64
 echo "Completed download"
 echo " "
 echo "Installing cloudflared"
-mv cloudflared-linux-arm64 /usr/sbin/cloudflared
+cp cloudflared-linux-arm64 /usr/sbin/cloudflared
 echo " "
 echo "Setting permisions"
 chmod 755 /usr/sbin/cloudflared
@@ -45,14 +47,15 @@ sleep 10
 cloudflared tunnel login
 echo " "
 echo "Create a tunnel once you have logged in"
-read -p "Enter your tunnel name" TUNNAME
+read -p "Enter your tunnel name: " TUNNAME
 cloudflared tunnel create $TUNNAME
 echo " "
 echo "Populating Tunnel List "
 cloudflared tunnel list
+sleep 10
 echo " "
 echo "We are now routing the tunnel to the domain"
-read -p "Enter Your Domain name e.g. access.mydomain.com" DOMAIN
+read -p "Enter Your Domain name e.g. access.mydomain.com: " DOMAIN
 echo " "
 cloudflared tunnel route dns $TUNNAME $DOMAIN
 echo " "
@@ -111,9 +114,10 @@ STOP=50
 RESTART=55
 
 # fix the cf buffer issues
-sysctl -w net.core.rmem_max=2500000
+
 
 start_service() {
+    sysctl -w net.core.rmem_max=2500000
     procd_open_instance
     procd_set_param command /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun
     procd_set_param stdout 1
@@ -128,12 +132,13 @@ echo " "
 echo "Setting Permissions"
 chmod 755 /etc/init.d/cloudflared
 echo " "
+/etc/init.d/cloudflared enable
 echo "Please enable when your ready in the Luci startup page"
 echo " "
 echo "installing helper service for Cloudflare updates"
 echo " "
 
-cat << EOF > /usr/sbin/cloudflared-update
+cat << "EOF" > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
 # Cloudflared install
 # Script to install update cloudflared when a new version is released
@@ -203,9 +208,11 @@ echo " "
 chmod 755 /usr/sbin/cloudflared-update
 echo " "
 cat << EOF >> /etc/crontabs/root
-0 0 * * * /usr/sbin/cloudflared-update
+30 12 * * * /usr/sbin/cloudflared-update
+
 EOF
 echo " "
+rm cloudflared-linux-arm64
 echo "installing helper service for ensuring tunnel is running"
 echo " "
 echo " "
@@ -219,5 +226,5 @@ echo "Opening config file"
 sleep 5
 nano /root/.cloudflared/config.yml
 echo ""
-
+/etc/init.d/cloudflared start
 exit 0
