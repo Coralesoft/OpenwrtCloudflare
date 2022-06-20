@@ -207,10 +207,7 @@ EOF
 echo " "
 chmod 755 /usr/sbin/cloudflared-update
 echo " "
-cat << EOF >> /etc/crontabs/root
-30 12 * * * /usr/sbin/cloudflared-update
-
-EOF
+sed -i -e '1i30 12 * * * /usr/sbin/cloudflared-update' /etc/crontabs/root
 echo " "
 rm cloudflared-linux-arm64
 echo "installing helper service for ensuring tunnel is running"
