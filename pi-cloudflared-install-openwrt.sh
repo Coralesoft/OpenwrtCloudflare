@@ -4,11 +4,11 @@
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
 # Last revised 20/06/2022
-# version 2022.06.20
+# version 2022.06.2
 #-----------------------------------------------------------------------
 # Version               Notes:
 # 1.0                   Inital Release
-# 2022.06.20            Script fixes and updates
+# 2022.06.2             Script fixes and updates
 #
 #
 echo "***************************************************"
