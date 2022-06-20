@@ -16,7 +16,7 @@ The script pulls down the latest version of cloudflared and installs it
 ### Prerequisite:
 - You have a active cloudflare account
 - You have a domain with DNS managed via cloudflare
-- you are logged into the cloudflare web console 
+- you are logged into the cloudflare web console (time saver)
 
 
 ## uninstall-cloudflared.sh
