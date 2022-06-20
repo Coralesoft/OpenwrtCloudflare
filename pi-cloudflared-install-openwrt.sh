@@ -26,7 +26,7 @@ echo "Downloading Cloudflared "
 echo " "
 wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
 echo " "
-chmod 755 /usr/sbin/cloudflared-linux-arm64
+chmod 755 cloudflared-linux-arm64
 echo "Completed download"
 echo " "
 echo "Installing cloudflared"
