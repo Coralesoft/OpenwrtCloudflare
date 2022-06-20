@@ -13,6 +13,6 @@ rm /root/.cloudflared/*
 rm /etc/init.d/cloudflared
 rm /usr/sbin/cloudflared-update
 rm /usr/sbin/cloudflared
-crontab -l | grep -v '/usr/sbin/cloudflared-update-check.sh' | crontab -
+crontab -l | grep -v '/usr/sbin/cloudflared-update' | crontab -
 exit 0
 
