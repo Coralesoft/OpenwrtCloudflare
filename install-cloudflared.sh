@@ -236,6 +236,9 @@ echo " "
 echo "Opening config file"
 sleep 5
 nano /root/.cloudflared/config.yml
+echo " "
 echo "Starting the tunnel"
+echo " "
 /etc/init.d/cloudflared start
+echo " "
 exit 0
