@@ -68,7 +68,7 @@ echo " "
 echo "#############################################################################"
 echo " "
 echo "Creating DNS records to route traffic to the Tunnel, This will"
-echo "configure a DNS CNAME record to point to your Tunnel subdomain
+echo "configure a DNS CNAME record to point to your Tunnel subdomain"
 echo " "
 read -p "Enter Your Domain name e.g. subdomain.mydomain.com: " DOMAIN
 echo " "
