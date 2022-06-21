@@ -28,6 +28,7 @@ rm /usr/sbin/cloudflared
 echo "Remving crontab"
 crontab -l | grep -v '/usr/sbin/cloudflared-update' | crontab -
 echo " "
+/etc/init.d/cron restart
 echo "Uninstall completed"
 
 exit 0
