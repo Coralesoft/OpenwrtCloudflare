@@ -12,6 +12,8 @@ echo " "
 echo "Stopping the current tunnel"
 /etc/init.d/cloudflared stop
 cloudflared tunnel list
+echo " "
+echo " "
 read -p "Enter your tunnel name for deletion: " TUNNAME
 echo " "
 echo "Deleting tunnel: "$TUNNAME
