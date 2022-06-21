@@ -11,23 +11,27 @@
 # 2022.06.2             Script fixes and updates
 #
 #
-echo "***************************************************"
-echo "**             Installing cloudflared            **"
-echo "**                                               **"
-echo "**   github.com/Coralesoft/PiOpenwrtCloudflare   **"
-echo "**                                               **"
-echo "**            dev@coralesoft.nz                  **"
-echo "**                                               **"
-echo "***************************************************"
+echo "*******************************************************"
+echo "**                 Installing cloudflared            **"
+echo "**                                                   **"
+echo "** https://github.com/Coralesoft/PiOpenwrtCloudflare **"
+echo "**                                                   **"
+echo "**                dev@coralesoft.nz                  **"
+echo "**                                                   **"
+echo "*******************************************************"
 echo " "
 opkg update
 opkg install nano wget-ssl
+echo "#############################################################################"
+echo " "
 echo "Downloading Cloudflared "
 echo " "
 wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
 echo " "
 chmod 755 cloudflared-linux-arm64
 echo "Completed download"
+echo " "
+echo "#############################################################################"
 echo " "
 echo "Installing cloudflared"
 cp cloudflared-linux-arm64 /usr/sbin/cloudflared
@@ -45,17 +49,15 @@ echo "You will be prompted to login into your account with a Cloudflare URL "
 echo "Copy this URL from the console and paste into your web browser"
 echo "Login process will be triggered in 10 seconds"
 echo " "
-echo " "
 echo "#############################################################################"
+echo " "
 sleep 10
 cloudflared tunnel login
 echo " "
-echo " "
 echo "#############################################################################"
 echo " "
-echo "Create a tunnel once you have logged in"
+echo "Create your tunnel, the tunnel name you assign can be any string (No Spaces)"
 echo " "
-echo "#############################################################################"
 read -p "Enter your tunnel name: " TUNNAME
 echo " "
 cloudflared tunnel create $TUNNAME
@@ -65,7 +67,8 @@ cloudflared tunnel list
 echo " "
 echo "#############################################################################"
 echo " "
-echo "We are now routing the tunnel to the domain"
+echo "Creating DNS records to route traffic to the Tunnel, This will"
+echo "configure a DNS CNAME record to point to your Tunnel subdomain
 echo " "
 read -p "Enter Your Domain name e.g. access.mydomain.com: " DOMAIN
 echo " "
@@ -75,17 +78,11 @@ echo "##########################################################################
 echo " "
 echo "Generating base config.yml file"
 echo " "
-echo "#############################################################################"
-echo " "
 JSON=$(find /root/.cloudflared/ -iname '*json')
 UUID=${JSON::-5}
 UUID=${UUID:(-36)}
 echo " "
-echo "#############################################################################"
-echo " "
 echo "Generating config for tunnel: "$UUID
-echo " "
-echo "#############################################################################"
 echo " "
 cat << EOF > /root/.cloudflared/config.yml
 # an example yml file for the inital config
@@ -101,21 +98,13 @@ ingress:
   - service: http_status:404
 EOF
 echo " "
-echo "#############################################################################"
-echo " "
 echo "Config file /root/cloudflared/config.yml"
 echo "has been generate for tunnel: "$UUID
 echo " Update the ingress section as needed"
 echo " "
 echo "#############################################################################"
 echo " "
-echo " "
-echo "#############################################################################"
-echo " "
 echo "Settting up the service"
-echo " "
-echo "#############################################################################"
-echo " "
 echo " "
 cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
@@ -156,6 +145,8 @@ echo "Setting Permissions"
 chmod 755 /etc/init.d/cloudflared
 echo " "
 /etc/init.d/cloudflared enable
+echo " "
+echo "Service Created"
 echo " "
 echo "#############################################################################"
 echo " "
