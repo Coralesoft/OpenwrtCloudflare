@@ -17,7 +17,7 @@ echo " "
 echo "Deleting tunnel: "$TUNNAME
 /usr/sbin/cloudflared tunnel delete $TUNNAME
 echo " "
-echo"Removing config"
+echo "Removing config"
 rm /root/.cloudflared/*
 echo "Removing Service"
 rm /etc/init.d/cloudflared
