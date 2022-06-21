@@ -70,7 +70,7 @@ echo " "
 echo "Creating DNS records to route traffic to the Tunnel, This will"
 echo "configure a DNS CNAME record to point to your Tunnel subdomain
 echo " "
-read -p "Enter Your Domain name e.g. access.mydomain.com: " DOMAIN
+read -p "Enter Your Domain name e.g. subdomain.mydomain.com: " DOMAIN
 echo " "
 cloudflared tunnel route dns $TUNNAME $DOMAIN
 echo " "
@@ -104,7 +104,7 @@ echo " Update the ingress section as needed"
 echo " "
 echo "#############################################################################"
 echo " "
-echo "Settting up the service"
+echo "Settting up the cloudfalred service"
 echo " "
 cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
@@ -146,13 +146,11 @@ chmod 755 /etc/init.d/cloudflared
 echo " "
 /etc/init.d/cloudflared enable
 echo " "
-echo "Service Created"
+echo "Service Created and enabled"
 echo " "
 echo "#############################################################################"
 echo " "
-echo "installing helper service for Cloudflare updates"
-echo " "
-echo "#############################################################################"
+echo "installing service for Cloudflare updates"
 echo " "
 cat << "EOF" > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
@@ -238,5 +236,6 @@ echo " "
 echo "Opening config file"
 sleep 5
 nano /root/.cloudflared/config.yml
+echo "Starting the tunnel"
 /etc/init.d/cloudflared start
 exit 0
