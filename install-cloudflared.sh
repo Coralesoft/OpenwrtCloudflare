@@ -118,8 +118,7 @@ cat << EOF > /etc/init.d/cloudflared
 #######################################################################
 ##																
 ##	IMPORTANT this needs to be copied into the /etc/init.d/  	
-##	folder with no file extention (remove the.sh) rename this file 	
-##  from cloudflared-service.sh and save as just cloudlfared 
+##	folder with the name cloudlfared 
 ##													
 ##	https://github.com/Coralesoft/PiOpenwrtCloudflare	
 ##														
