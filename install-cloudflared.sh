@@ -93,10 +93,10 @@ tunnel: $UUID
 credentials-file: $JSON
 ingress:
   - hostname: $DOMAIN
-    service: http://localhost:8880
-  - hostname: opent.domain.nz
     service: http://localhost:80
-  - hostname: ssh.domain.nz
+  - hostname: netdata.mydomain.nz
+    service: http://localhost:8880
+  - hostname: ssh.mydomain.nz
     service: ssh://192.168.1.1:22
   - service: http_status:404
 EOF
