@@ -25,7 +25,7 @@ echo "Removing updates"
 rm /usr/sbin/cloudflared-update
 echo "Removing Deamon"
 rm /usr/sbin/cloudflared
-echo "Remving crontab"
+echo "Removing crontab entry"
 crontab -l | grep -v '/usr/sbin/cloudflared-update' | crontab -
 echo " "
 /etc/init.d/cron restart
