@@ -24,7 +24,7 @@ echo "*******************************************************"
 echo " "
 echo " "
 echo "#############################################################################"
-SPACE_REQ=72472
+SPACE_REQ=724720000
 SPACE_AVAIL=$(df / | tr -d "\n"| awk '{print $10}')
 AVAIL=$(df -h / | tr -d "\n"| awk '{print $10}')
 echo " "
@@ -35,7 +35,11 @@ then
         echo "$AVAIL space is available";
         echo "You do not have enough free space commence the install";
         echo "Please increase root partition size";
-        echo "Installation will cease, no changes have been made";
+        echo " "
+        echo "*** Installation will cease, no changes have been made";
+        echo " "
+        echo "#############################################################################"
+        echo " "
         exit 0;
 fi
 echo " "
