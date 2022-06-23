@@ -35,11 +35,11 @@ then
         echo "$AVAIL space is available";
         echo "You do not have enough free space commence the install";
         echo "Please increase root partition size";
-        echo " "
+        echo " ";
         echo "*** Installation will cease, no changes have been made";
-        echo " "
-        echo "#############################################################################"
-        echo " "
+        echo " ";
+        echo "#############################################################################";
+        echo " ";
         exit 0;
 fi
 echo " "
