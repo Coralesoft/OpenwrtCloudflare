@@ -3,14 +3,15 @@
 # Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 21/06/2022
-# version 2022.06.8
+# Last revised 23/06/2022
+# version 2022.06.9
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
 # 2022.06.2    20.06.2022   Script fixes and updates
 # 2022.06.3    21.06.2022   Script cleanup
 # 2022.06.8    21.06.2022   Multiple formatting Updates
+# 2022.06.9    23.06.2022   Added check if there is enough free space
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -21,6 +22,25 @@ echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
 echo "*******************************************************"
 echo " "
+echo " "
+echo "#############################################################################"
+SPACE_REQ=72472
+SPACE_AVAIL=$(df / | tr -d "\n"| awk '{print $10}')
+AVAIL=$(df -h / | tr -d "\n"| awk '{print $10}')
+echo " "
+echo "Checking Space Required is greater then 70Mb"
+echo " "
+if [ "$SPACE_AVAIL" -lt "$SPACE_REQ" ];
+then
+        echo "$AVAIL space is available";
+        echo "You do not have enough free space commence the install";
+        echo "Please increase root partition size";
+        echo "Installation will cease, no changes have been made";
+        exit 0;
+fi
+echo " "
+echo "Theres is enough space to install"
+echo "$AVAIL is availalable for use"
 echo " "
 echo "#############################################################################"
 echo " "
