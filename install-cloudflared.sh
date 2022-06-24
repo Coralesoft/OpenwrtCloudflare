@@ -8,10 +8,10 @@
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
-# 2022.06.2    20.06.2022   Script fixes and updates
-# 2022.06.3    21.06.2022   Script cleanup
-# 2022.06.8    21.06.2022   Multiple formatting Updates
-# 2022.06.9    23.06.2022   Added check if there is enough free space
+# 2022.06.2     20.06.2022   Script fixes and updates
+# 2022.06.3     21.06.2022   Script cleanup
+# 2022.06.8     21.06.2022   Multiple formatting Updates
+# 2022.06.9     23.06.2022   Added check if there is enough free space
 # 2022.06.10    23.06.2022  Updated user messaging
 #
 echo "*******************************************************"
