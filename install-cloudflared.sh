@@ -164,7 +164,7 @@ RESTART=55
 start_service() {
     sysctl -w net.core.rmem_max=2500000
     procd_open_instance
-    procd_set_param command /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run OpenTun
+    procd_set_param command /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run $TUNNAME
     procd_set_param stdout 1
     procd_set_param stderr 1
     procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
