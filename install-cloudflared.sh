@@ -34,7 +34,7 @@ echo " "
 if [ "$SPACE_AVAIL" -lt "$SPACE_REQ" ];
 then
         echo "$AVAIL space is available";
-        echo "You do not have enough free space commence the install";
+        echo "You do not have enough free space to commence the install";
         echo "Please increase root partition size";
         echo " ";
         echo "*** Installation will cease, no changes have been made";
