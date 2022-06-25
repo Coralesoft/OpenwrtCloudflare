@@ -3,7 +3,7 @@
 # Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 24/06/2022
+# Last revised 25/06/2022
 # version 2022.06.10
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
@@ -12,7 +12,7 @@
 # 2022.06.3     21.06.2022   Script cleanup
 # 2022.06.8     21.06.2022   Multiple formatting Updates
 # 2022.06.9     23.06.2022   Added check if there is enough free space
-# 2022.06.10    23.06.2022   Updated user messaging
+# 2022.06.10    25.06.2022   Updated user messaging and tunnel Name fix
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
