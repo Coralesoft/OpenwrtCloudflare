@@ -224,7 +224,7 @@ then
 	echo " "
 	echo "No Change cleaning up"
 	echo " "
-	rm ./cloudflared-linux-arm64
+	rm ./cloudflared-linux-arm64*
 else
 	echo "New version available"
 	msgf="Shutting down tunnel "
@@ -256,7 +256,7 @@ echo " "
 sed -i -e '1i30 12 * * * /usr/sbin/cloudflared-update' /etc/crontabs/root
 /etc/init.d/cron restart
 echo " "
-rm cloudflared-linux-arm64
+rm cloudflared-linux-arm64*
 echo " "
 echo " "
 echo "***************************************************"
