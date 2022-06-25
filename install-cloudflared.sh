@@ -12,7 +12,7 @@
 # 2022.06.3     21.06.2022   Script cleanup
 # 2022.06.8     21.06.2022   Multiple formatting Updates
 # 2022.06.9     23.06.2022   Added check if there is enough free space
-# 2022.06.10    23.06.2022  Updated user messaging
+# 2022.06.10    23.06.2022   Updated user messaging
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
