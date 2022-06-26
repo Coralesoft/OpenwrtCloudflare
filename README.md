@@ -1,12 +1,11 @@
 # Raspberry Pi 4 OpenWrt Router running Cloudflare tunnels
 
-2022.06.10 Release of the Raspberry Pi 4 OpenWrt Router Running Cloudflare Tunnels
 This install script will install a Cloudflare tunnel on an Rasberry Pi4 running as a OpenWrt Router
-
+Version: 2022.06.10
 
 ### Scripts:
 
-Version: 2022.06.10
+
 
 ## install-cloudflared.sh
 This script will completed the full install of Cloudflare tunnel onto a Raspberry Pi running OpenWrt
