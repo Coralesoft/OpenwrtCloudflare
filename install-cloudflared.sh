@@ -4,7 +4,7 @@
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
 # Last revised 25/06/2022
-# version 2022.06.10
+# version 2022.07.1
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
@@ -13,6 +13,7 @@
 # 2022.06.8     21.06.2022   Multiple formatting Updates
 # 2022.06.9     23.06.2022   Added check if there is enough free space
 # 2022.06.10    25.06.2022   Updated user messaging and tunnel Name fix
+# 2022.07.1     02.07.2022   Clean up Script
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
