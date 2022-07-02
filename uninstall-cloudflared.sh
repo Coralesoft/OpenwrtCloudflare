@@ -3,7 +3,7 @@
 # Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 21/06/2022
+# Last revised 2/07/2022
 # version 2022.07.1
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
