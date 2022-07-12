@@ -198,9 +198,9 @@ cat << "EOF" > /usr/sbin/cloudflared-update
 #
 # Setup a cron job to do this as a scheduled task
 # example Run at 11:38 am each day
-# 38 11 * * * /root/cloudflared-update-check.sh
+# 38 11 * * * /usr/sbin/cloudflared-update
 # Example run at midnight each day
-# 0 0 * * * /root/cloudflared-update-check.sh
+# 0 0 * * * /usr/sbin/cloudflared-update
 # 
 #
 #
