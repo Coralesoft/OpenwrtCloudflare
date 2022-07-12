@@ -25,7 +25,5 @@ The script pulls down the latest version of cloudflared and installs it
 This Script cleanly uninstalls / removes cloudflared.
 
 
-Raspberry Pi 4 OpenWrt Router Installing Cloudflare Tunnels
-2022.07.1 Release of the Raspberry Pi 4 OpenWrt Router Running Cloudflare Tunnels
-This install script will install a Cloudflare tunnel on an Rasberry Pi4 running as a OpenWrt Router
+
 
