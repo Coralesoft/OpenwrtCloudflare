@@ -1,14 +1,15 @@
-# Raspberry Pi 4 OpenWrt Router running Cloudflare tunnels
+# Supports Raspberry Pi 4 and OpenWrt_x86 OpenWrt Router running Cloudflare tunnels
 
 This install script will install a Cloudflare tunnel on an Rasberry Pi4 running as a OpenWrt Router\
-Script Version: 2022.07.1
+or running a machine based on OpenWrt x86
+Script Version: 2022.07.2
 
 ### Scripts:
 
 
 
 ## install-cloudflared.sh
-This script will completed the full install of Cloudflare tunnel onto a Raspberry Pi running OpenWrt
+This script will completed the full install of Cloudflare tunnel onto a Raspberry Pi or x86 machine running OpenWrt
 The script pulls down the latest version of cloudflared and installs it
 - Checks there is enough free space
 - sets up the service to run it 
