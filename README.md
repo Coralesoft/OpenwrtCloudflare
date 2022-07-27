@@ -9,7 +9,7 @@ Script Version: 2022.07.2
 
 
 ## install-cloudflared.sh
-This script will completed the full install of Cloudflare tunnel onto a Raspberry Pi or x86 machine running OpenWrt
+This script will completed the full install of Cloudflare tunnel onto a Raspberry Pi or x86 machine running OpenWrt\
 The script pulls down the latest version of cloudflared and installs it
 - Checks there is enough free space
 - sets up the service to run it 
