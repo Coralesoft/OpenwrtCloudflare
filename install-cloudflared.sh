@@ -14,6 +14,7 @@
 # 2022.06.9     23.06.2022   Added check if there is enough free space
 # 2022.06.10    25.06.2022   Updated user messaging and tunnel Name fix
 # 2022.07.1     02.07.2022   Clean up Script
+# 2022.07.2		27.07.2022	 Added Support for OpenWrt_X86
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -26,6 +27,22 @@ echo "*******************************************************"
 echo " "
 echo " "
 echo "#############################################################################"
+#check machine type
+MACHINE_TYPE=$(uname -m)
+if [ "$MACHINE_TYPE" = "aarch64" ] || [ "$MACHINE_TYPE" = "X86_64" ]
+then
+	echo $MACHINE_TYPE" is supported proceeding with install"
+else
+	echo $MACHINE_TYPE" is not supported exiting the install"
+	exit 0
+fi
+if [ "$MACHINE_TYPE" = "aarch64" ]
+then
+	INSTALL_TYPE=arm64
+else
+	INSTALL_TYPE=amd64
+fi	
+#check space
 SPACE_REQ=72472
 SPACE_AVAIL=$(df / | tr -d "\n"| awk '{print $10}')
 AVAIL=$(df -h / | tr -d "\n"| awk '{print $10}')
@@ -57,17 +74,17 @@ opkg install nano wget-ssl
 echo " "
 echo "#############################################################################"
 echo " "
-echo "Downloading Cloudflared "
+echo "Downloading Cloudflared for "$MACHINE_TYPE
 echo " "
-wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
-echo " "
-chmod 755 cloudflared-linux-arm64
+	wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE
+	echo " "
+	chmod 755 cloudflared-linux-$INSTALL_TYPE
 echo "Completed download"
 echo " "
 echo "#############################################################################"
 echo " "
 echo "Installing cloudflared"
-cp cloudflared-linux-arm64 /usr/sbin/cloudflared
+cp cloudflared-linux-$INSTALL_TYPE /usr/sbin/cloudflared
 echo " "
 echo "Setting permisions"
 chmod 755 /usr/sbin/cloudflared
@@ -187,14 +204,14 @@ echo "##########################################################################
 echo " "
 echo "installing service for Cloudflare updates"
 echo " "
-cat << "EOF" > /usr/sbin/cloudflared-update
+cat << EOF > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
 # Cloudflared install
 # Script to install update cloudflared when a new version is released
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 15/06/2022
-# version 1.0
+# Last revised 27/07/2022
+# version 2022.07.2
 #
 # Setup a cron job to do this as a scheduled task
 # example Run at 11:38 am each day
@@ -212,30 +229,30 @@ echo " "
 echo " "
 echo "Checking new version"
 echo " "
-wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-arm64
+wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE
 echo " "
 echo "Completed download"
 echo " "
 echo "Checking version"
-VERSION_OLD=$(cloudflared -v)
-chmod 755 ./cloudflared-linux-arm64
-VERSION_NEW=$(./cloudflared-linux-arm64 -v)
-echo "old version: "$VERSION_OLD
-echo "new version: "$VERSION_NEW
-if [ "$VERSION_OLD" = "$VERSION_NEW" ]
+VERSION_OLD=\$(cloudflared -v)
+chmod 755 ./cloudflared-linux-$INSTALL_TYPE
+VERSION_NEW=\$(./cloudflared-linux-$INSTALL_TYPE -v)
+echo "old version: "\$VERSION_OLD
+echo "new version: "\$VERSION_NEW
+if [ "\$VERSION_OLD" = "\$VERSION_NEW" ]
 then
 	echo " "
 	echo "No Change cleaning up"
 	echo " "
-	rm ./cloudflared-linux-arm64*
+	rm ./cloudflared-linux-$INSTALL_TYPE*
 else
 	echo "New version available"
 	msgf="Shutting down tunnel "
-	PID=$(pidof cloudflared)
-	echo $msgf $PID
+	PID=\$(pidof cloudflared)
+	echo \$msgf \$PID
 	/etc/init.d/cloudflared stop
 	echo "Replacing cloudflared"
-	mv cloudflared-linux-arm64 /usr/sbin/cloudflared
+	mv cloudflared-linux-$INSTALL_TYPE /usr/sbin/cloudflared
 	echo " "
 	echo "Replacement is complete"
 	echo " "
@@ -259,7 +276,7 @@ echo " "
 sed -i -e '1i30 12 * * * /usr/sbin/cloudflared-update' /etc/crontabs/root
 /etc/init.d/cron restart
 echo " "
-rm cloudflared-linux-arm64*
+rm cloudflared-linux-$INSTALL_TYPE*
 echo " "
 echo " "
 echo "***************************************************"
