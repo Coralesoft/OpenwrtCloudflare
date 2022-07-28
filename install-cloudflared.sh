@@ -20,7 +20,7 @@
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
 echo "**                                                   **"
-echo "** https://github.com/Coralesoft/OpenwrtCloudflare **"
+echo "** https://github.com/Coralesoft/OpenwrtCloudflare   **"
 echo "**                                                   **"
 echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
@@ -224,7 +224,7 @@ cat << EOF > /usr/sbin/cloudflared-update
 #
 echo "***************************************************"
 echo "**      Updating cloudflared check               **"
-echo "** github.com/Coralesoft/OpenwrtCloudflare     **"
+echo "** github.com/Coralesoft/OpenwrtCloudflare       **"
 echo "***************************************************"
 echo " "
 echo " "
