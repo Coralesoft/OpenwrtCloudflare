@@ -15,7 +15,7 @@
 # 2022.06.9     23.06.2022   Added check if there is enough free space
 # 2022.06.10    25.06.2022   Updated user messaging and tunnel Name fix
 # 2022.07.1     02.07.2022   Clean up Script
-# 2022.07.2	27.07.2022	 Added Support for OpenWrt_X86
+# 2022.07.2	27.07.2022   Added Support for OpenWrt_X86
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
