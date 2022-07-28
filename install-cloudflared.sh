@@ -20,7 +20,7 @@
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
 echo "**                                                   **"
-echo "** https://github.com/Coralesoft/PiOpenwrtCloudflare **"
+echo "** https://github.com/Coralesoft/OpenwrtCloudflare **"
 echo "**                                                   **"
 echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
@@ -172,7 +172,7 @@ cat << EOF > /etc/init.d/cloudflared
 ##	IMPORTANT this needs to be copied into the /etc/init.d/  	
 ##	folder with the name cloudlfared 
 ##													
-##	https://github.com/Coralesoft/PiOpenwrtCloudflare	
+##	https://github.com/Coralesoft/OpenwrtCloudflare	
 ##														
 #######################################################################
 USE_PROCD=1
@@ -224,7 +224,7 @@ cat << EOF > /usr/sbin/cloudflared-update
 #
 echo "***************************************************"
 echo "**      Updating cloudflared check               **"
-echo "** github.com/Coralesoft/PiOpenwrtCloudflare     **"
+echo "** github.com/Coralesoft/OpenwrtCloudflare     **"
 echo "***************************************************"
 echo " "
 echo " "
