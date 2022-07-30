@@ -8,11 +8,11 @@
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
-# 2022.06.2    20.06.2022   Script fixes and updates
-# 2022.06.3    21.06.2022   Script cleanup
-# 2022.06.8    21.06.2022   Multiple formatting Updates
-# 2022.07.1    02.07.2022   Cleanup
-# 2022.08.1    01-08-2022   Make script more robust 
+# 2022.6.2    20.06.2022   Script fixes and updates
+# 2022.6.3    21.06.2022   Script cleanup
+# 2022.6.8    21.06.2022   Multiple formatting Updates
+# 2022.7.1    02.07.2022   Cleanup
+# 2022.8.1    01-08-2022   Make script more robust 
 #
 echo "#############################################################################"
 echo " "
