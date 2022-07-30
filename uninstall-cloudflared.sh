@@ -12,35 +12,62 @@
 # 2022.06.3    21.06.2022   Script cleanup
 # 2022.06.8    21.06.2022   Multiple formatting Updates
 # 2022.07.1    02.07.2022   Cleanup
+# 2022.07.30   30-07-2022 	Make script more robust 
 #
+echo "#############################################################################"
+echo " "
+echo "Checking Machine State"
+echo " "
+CLOUDF_STATE=$(pidof cloudflared >/dev/null && echo "running" || echo "stopped")
 echo " "
 echo "Removing Cloudfared and its config"
 echo " "
-echo "Stopping the current tunnel"
-/etc/init.d/cloudflared stop
-cloudflared tunnel list
-echo " "
-echo " "
-read -p "Enter your tunnel name for deletion: " TUNNAME
-echo " "
-echo "Deleting tunnel: "$TUNNAME
-/usr/sbin/cloudflared tunnel delete $TUNNAME
-echo " "
-echo "Removing config"
-rm /root/.cloudflared/*
-echo "Removing Service"
-rm /etc/init.d/cloudflared
-echo "Removing updates"
-rm /usr/sbin/cloudflared-update
-echo "Removing Deamon"
-rm /usr/sbin/cloudflared
-echo "Removing crontab entry"
-crontab -l | grep -v '/usr/sbin/cloudflared-update' | crontab -
-echo " "
-echo "Restarting Cron"
-/etc/init.d/cron restart
-echo " "
+if [ "$CLOUDF_STATE" = "running" ]
+then
+	echo "Stopping the current tunnel"
+	/etc/init.d/cloudflared stop
+fi
+
+if [ -f "/usr/sbin/cloudflared" ]
+then
+	cloudflared tunnel list
+	echo " "
+	echo " "
+	read -p "Enter your tunnel name for deletion: " TUNNAME
+	echo " "
+	echo "Deleting tunnel: "$TUNNAME
+	/usr/sbin/cloudflared tunnel delete $TUNNAME
+	echo " "
+fi
+if [ -d "/root/.cloudflared" ] && ! [ -z "$(ls -A /root/.cloudflared)" ]
+then
+	echo "Removing config"
+	rm /root/.cloudflared/*
+fi
+if [ -f "/etc/init.d/cloudflared" ] 
+then 
+	echo "Removing Service" 
+	rm /etc/init.d/cloudflared 
+fi
+if [ -f "/usr/sbin/cloudflared-update" ] 
+then 
+	echo "Removing updater"
+	rm /usr/sbin/cloudflared-update
+fi
+if [ -f "/usr/sbin/cloudflared" ]
+then 
+	echo "Removing Deamon"
+	rm /usr/sbin/cloudflared
+fi
+
+if crontab -l | grep -Fq '/usr/sbin/cloudflared-update'
+then
+	echo "Removing crontab entry"
+	crontab -l | grep -v '/usr/sbin/cloudflared-update' | crontab -
+	echo " "
+	echo "Restarting Cron"
+	/etc/init.d/cron restart
+	echo " "
+fi
 echo "Uninstall completed"
-
-
 exit 0
