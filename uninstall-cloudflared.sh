@@ -1,6 +1,6 @@
 #!/bin/sh /etc/rc.common
 # Cloudflared install
-# Script to install cloudflare tunnel on a Raspberry Pi running OpenWrt
+# Script to un-install cloudflare tunnel on a Raspberry Pi or x86 running OpenWrt
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
 # Last revised 1/08/2022
