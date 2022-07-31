@@ -73,7 +73,7 @@ echo "Checking nano & wget-ssl are installed"
 if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ]
 then
         echo " "
-        echo "Package missing, Updating packages"
+        echo "Packages are  missing, Updating packages"
         opkg update
         if ! [ -f "/usr/bin/nano" ]
         then
@@ -176,7 +176,7 @@ EOF
 echo " "
 echo "Config file /root/cloudflared/config.yml"
 echo "has been generate for tunnel: "$UUID
-echo " Update the ingress section as needed"
+echo "Update the ingress section as needed"
 echo " "
 echo "#############################################################################"
 echo " "
@@ -250,13 +250,14 @@ wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/lates
 echo " "
 echo "Completed download"
 echo " "
-echo "Checking version"
+echo "Checking version number"
 VERSION_OLD=\$(cloudflared -v)
 chmod 755 ./cloudflared-linux-$INSTALL_TYPE
 VERSION_NEW=\$(./cloudflared-linux-$INSTALL_TYPE -v)
 echo "old version: "\$VERSION_OLD
 echo "new version: "\$VERSION_NEW
 if [ "\$VERSION_OLD" = "\$VERSION_NEW" ]
+
 then
 	echo " "
 	echo "No Change cleaning up"
@@ -268,7 +269,7 @@ else
 	PID=\$(pidof cloudflared)
 	echo \$msgf \$PID
 	/etc/init.d/cloudflared stop
-	echo "Replacing cloudflared"
+	echo "Replacing cloudflared Daemon"
 	mv cloudflared-linux-$INSTALL_TYPE /usr/sbin/cloudflared
 	echo " "
 	echo "Replacement is complete"
@@ -302,7 +303,7 @@ echo "***************************************************"
 echo " "
 echo "Please configure /root/.cloudflared/config.yml with your site details"
 echo " "
-echo "Opening config file"
+echo "Opening config file in 5 seconds"
 sleep 5
 nano /root/.cloudflared/config.yml
 echo " "
