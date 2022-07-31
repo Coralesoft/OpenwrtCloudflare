@@ -16,7 +16,7 @@
 # 2022.6.10    25.06.2022   Updated user messaging and tunnel Name fix
 # 2022.7.1     02.07.2022   Clean up Script
 # 2022.7.2     27.07.2022   Added Support for OpenWrt_X86
-# 2022.8.1     01.08.2022   Updated script
+# 2022.8.1     01.08.2022   Updated script to check for packages
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -69,10 +69,33 @@ echo "$AVAIL is availalable for use"
 echo " "
 echo "#############################################################################"
 echo " "
-echo "Updating opkg and installing Nano & wget-ssl"
-echo " "
-opkg update
-opkg install nano wget-ssl
+echo "Checking nano & wget-ssl are installed"
+if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ]
+then
+        echo " "
+        echo "Package missing, Updating packages"
+        opkg update
+        if ! [ -f "/usr/bin/nano" ]
+        then
+                echo " "
+                echo "Installing nano"
+                opkg install nano
+                echo " "
+        fi
+        if ! [ -f "/usr/libexec/wget-ssl" ]
+        then
+                echo " "
+                echo "Installing wget-ssl"
+                opkg install wget-ssl
+                echo " "
+        fi
+        echo "Required packages installed"
+        echo " "
+else
+        echo " "
+        echo " Required packages available continuing with setup "
+        echo " "
+fi
 echo " "
 echo "#############################################################################"
 echo " "
@@ -180,7 +203,6 @@ USE_PROCD=1
 START=39
 STOP=50
 RESTART=55
-
 start_service() {
     # fix the cf buffer issues
     sysctl -w net.core.rmem_max=2500000
