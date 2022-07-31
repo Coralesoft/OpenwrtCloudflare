@@ -200,7 +200,7 @@ cat << EOF > /etc/init.d/cloudflared
 ##														
 #######################################################################
 USE_PROCD=1
-START=39
+START=38
 STOP=50
 RESTART=55
 start_service() {
@@ -234,15 +234,8 @@ cat << EOF > /usr/sbin/cloudflared-update
 # Script to install update cloudflared when a new version is released
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 27/07/2022
-# version 2022.07.2
-#
-# Setup a cron job to do this as a scheduled task
-# example Run at 11:38 am each day
-# 38 11 * * * /usr/sbin/cloudflared-update
-# Example run at midnight each day
-# 0 0 * * * /usr/sbin/cloudflared-update
-# 
+# Last revised 01/08/2022
+# version 2022.8.1
 #
 #
 echo "***************************************************"
