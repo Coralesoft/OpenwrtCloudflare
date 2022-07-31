@@ -89,7 +89,7 @@ then
                 opkg install wget-ssl
                 echo " "
         fi
-        echo "Required packages installed"
+        echo "Required packages are now installed"
         echo " "
 else
         echo " "
