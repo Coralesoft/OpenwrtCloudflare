@@ -184,7 +184,7 @@ ingress:
 EOF
 echo " "
 echo "Config file /root/cloudflared/config.yml"
-echo "has been generate for tunnel: "$UUID
+echo "has been generated for tunnel: "$UUID
 echo "Update the ingress section as needed"
 echo " "
 echo "#############################################################################"
