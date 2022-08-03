@@ -4,8 +4,8 @@
 # or cloudflare tunnels on Openwrt_x86
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 01/08/2022
-# version 2022.8.1
+# Last revised 03/08/2022
+# version 2022.8.2
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
@@ -17,6 +17,7 @@
 # 2022.7.1     02.07.2022   Clean up Script
 # 2022.7.2     27.07.2022   Added Support for OpenWrt_X86
 # 2022.8.1     01.08.2022   Updated script to check for packages
+# 2022.8.2	   03.08.2022   Updated Cloudflared updater
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -27,6 +28,7 @@ echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
 echo "*******************************************************"
 echo " "
+echo "Script Version: 2022.8.2"
 echo " "
 echo "#############################################################################"
 #check machine type
@@ -70,7 +72,7 @@ echo " "
 echo "#############################################################################"
 echo " "
 echo "Checking nano & wget-ssl are installed"
-if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ]
+if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ] || ! [ -f "/usr/bin/jq" ]
 then
         echo " "
         echo "Packages are  missing, Updating packages"
@@ -87,6 +89,13 @@ then
                 echo " "
                 echo "Installing wget-ssl"
                 opkg install wget-ssl
+                echo " "
+        fi
+		if ! [ -f "/usr/bin/jq" ]
+        then
+                echo " "
+                echo "Installing jq JSON processor "
+                opkg install jq
                 echo " "
         fi
         echo "Required packages are now installed"
@@ -188,8 +197,8 @@ cat << EOF > /etc/init.d/cloudflared
 # Script run cloudflared as a service 
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 01/08/2022
-# version 2022.8.1
+# Last revised 03/08/2022
+# version 2022.8.2
 # 
 #######################################################################
 ##																
@@ -231,60 +240,59 @@ echo " "
 cat << EOF > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
 # Cloudflared install
-# Script to install update cloudflared when a new version is released
+# Script to update cloudflared Daemon when a new version is released
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 01/08/2022
-# version 2022.8.1
+# Last revised 03/08/2022
+# version 2022.8.2
 #
 #
 echo "***************************************************"
-echo "**      Updating cloudflared check               **"
+echo "**      Updating cloudflared Deamon              **"
 echo "** github.com/Coralesoft/OpenwrtCloudflare       **"
 echo "***************************************************"
 echo " "
 echo " "
-echo "Checking new version"
+echo "Checking for a new version"
 echo " "
-wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE
+LATEST=\$(curl -sL https://api.github.com/repos/cloudflare/cloudflared/releases/latest | jq -r ".tag_name")
 echo " "
-echo "Completed download"
+echo "Checking version numbers"
+VERSION_OLD=\$(cloudflared -v |awk '{print \$3}')
 echo " "
-echo "Checking version number"
-VERSION_OLD=\$(cloudflared -v)
-chmod 755 ./cloudflared-linux-$INSTALL_TYPE
-VERSION_NEW=\$(./cloudflared-linux-$INSTALL_TYPE -v)
 echo "old version: "\$VERSION_OLD
-echo "new version: "\$VERSION_NEW
-if [ "\$VERSION_OLD" = "\$VERSION_NEW" ]
-
+echo "new version: "\$LATEST
+if [ "\$VERSION_OLD" = "\$LATEST" ]
 then
-	echo " "
-	echo "No Change cleaning up"
-	echo " "
-	rm ./cloudflared-linux-$INSTALL_TYPE*
+        echo " "
+        echo "You are on the latest release"
+        echo "Exiting update process"
+        echo " "
 else
-	echo "New version available"
-	msgf="Shutting down tunnel "
-	PID=\$(pidof cloudflared)
-	echo \$msgf \$PID
-	/etc/init.d/cloudflared stop
-	echo "Replacing cloudflared Daemon"
-	mv cloudflared-linux-$INSTALL_TYPE /usr/sbin/cloudflared
-	echo " "
-	echo "Replacement is complete"
-	echo " "
-	echo "Setting permisions"
-	chmod 755 /usr/sbin/cloudflared
-	echo  " "
-	echo "Changing permisions complete"
-	echo " "
-	echo "Restarting the tunnel"
-	/etc/init.d/cloudflared start
-	echo " "
-	echo "***************************************************"
-	echo "Upgrade has been completed"
-	echo "***************************************************"
+        echo "New version is available"
+        msgf="Shutting down tunnel "
+        PID=\$(pidof cloudflared)
+        echo \$msgf \$PID
+        /etc/init.d/cloudflared stop
+        echo " "
+        echo "Replacing Cloudflared Daemon"
+        echo " "
+        wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE
+        echo " "
+        echo "Completed download"
+        echo " "
+        mv cloudflared-linux-$INSTALL_TYPE /usr/sbin/cloudflared
+        echo "Update is complete"
+        echo " "
+        echo "Setting permisions"
+        chmod 755 /usr/sbin/cloudflared
+        echo  " "
+        echo "Restarting the tunnel"
+        /etc/init.d/cloudflared start
+        echo " "
+        echo "***************************************************"
+        echo "Upgrade has been completed"
+        echo "***************************************************"
 fi
 exit 0
 EOF
