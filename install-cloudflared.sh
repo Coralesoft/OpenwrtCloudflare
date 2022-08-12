@@ -270,9 +270,8 @@ then
         echo " "
 else
         echo "New version is available"
-        msgf="Shutting down tunnel "
-        PID=\$(pidof cloudflared)
-        echo \$msgf \$PID
+        echo "Shutting down tunnel "
+	echo " "
         /etc/init.d/cloudflared stop
         echo " "
         echo "Replacing Cloudflared Daemon"
