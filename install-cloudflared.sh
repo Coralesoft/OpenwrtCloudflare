@@ -72,7 +72,7 @@ echo " "
 echo "#############################################################################"
 echo " "
 echo "Checking nano & wget-ssl are installed"
-if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ] || ! [ -f "/usr/bin/jq" ]
+if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ] || ! [ -f "/usr/bin/jq" ] || ! [ -f "/usr/bin/curl" ]
 then
         echo " "
         echo "Packages are  missing, Updating packages"
@@ -82,6 +82,13 @@ then
                 echo " "
                 echo "Installing nano"
                 opkg install nano
+                echo " "
+        fi
+	if ! [ -f "/usr/bin/curl" ]
+        then
+                echo " "
+                echo "Installing curl"
+                opkg install curl
                 echo " "
         fi
         if ! [ -f "/usr/libexec/wget-ssl" ]
