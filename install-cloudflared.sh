@@ -221,7 +221,7 @@ STOP=50
 RESTART=55
 start_service() {
     # fix the cf buffer issues
-    sysctl -w net.core.rmem_max=2500000
+    sysctl -w net.core.rmem_max=2500000 &> /dev/null
     # Service details
     procd_open_instance
     procd_set_param command /usr/sbin/cloudflared tunnel --config /root/.cloudflared/config.yml run $TUNNAME
