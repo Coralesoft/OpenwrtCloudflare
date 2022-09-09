@@ -17,7 +17,7 @@
 # 2022.7.1     02.07.2022   Clean up Script
 # 2022.7.2     27.07.2022   Added Support for OpenWrt_X86
 # 2022.8.1     01.08.2022   Updated script to check for packages
-# 2022.8.2	   03.08.2022   Updated Cloudflared updater
+# 2022.8.2     03.08.2022   Updated Cloudflared updater
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
