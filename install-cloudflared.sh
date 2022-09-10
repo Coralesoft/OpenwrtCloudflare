@@ -1,5 +1,5 @@
 #!/bin/sh /etc/rc.common
-# Cloudflared install
+# Cloudflared install for Locally and Web Managed
 # Script to install cloudflare tunnel on a Raspberry Pi or x86 running OpenWrt
 # or cloudflare tunnels on Openwrt_x86
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
@@ -18,7 +18,7 @@
 # 2022.7.2     27.07.2022   Added Support for OpenWrt_X86
 # 2022.8.1     01.08.2022   Updated script to check for packages
 # 2022.8.2     03.08.2022   Updated Cloudflared updater
-# 2022.9.1     10.09.2022   Updated formatting and new Web install option
+# 2022.9.1     10.09.2022   Added new Cloudflare Web install option
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -131,7 +131,6 @@ then
     echo "exiting the install"
     exit 0
 fi
-
 echo "#############################################################################"
 echo " "
 echo "Downloading Cloudflared for "$MACHINE_TYPE
@@ -274,7 +273,6 @@ echo " "
 read -p "Enter your tunnel token: " TUNTOKEN
 echo " "
 echo "Setting up Web Service"
-
 cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
