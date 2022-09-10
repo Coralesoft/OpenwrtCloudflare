@@ -4,8 +4,8 @@
 # or cloudflare tunnels on Openwrt_x86
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 03/08/2022
-# version 2022.8.2
+# Last revised 10/09/2022
+# version 2022.9.1
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
@@ -18,6 +18,7 @@
 # 2022.7.2     27.07.2022   Added Support for OpenWrt_X86
 # 2022.8.1     01.08.2022   Updated script to check for packages
 # 2022.8.2     03.08.2022   Updated Cloudflared updater
+# 2022.9.1     10.09.2022   Updated formatting and new Web install option
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -28,7 +29,7 @@ echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
 echo "*******************************************************"
 echo " "
-echo "Script Version: 2022.8.2"
+echo "Script Version: 2022.9.1"
 echo " "
 echo "#############################################################################"
 #check machine type
@@ -204,8 +205,8 @@ cat << EOF > /etc/init.d/cloudflared
 # Script run cloudflared as a service 
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 03/08/2022
-# version 2022.8.2
+# Last revised 10/09/2022
+# version 2022.9.1
 # 
 #######################################################################
 ##																
@@ -250,8 +251,8 @@ cat << EOF > /usr/sbin/cloudflared-update
 # Script to update cloudflared Daemon when a new version is released
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
-# Last revised 03/08/2022
-# version 2022.8.2
+# Last revised 10/09/2022
+# version 2022.9.1
 #
 #
 echo "***************************************************"
