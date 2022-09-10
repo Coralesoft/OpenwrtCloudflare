@@ -113,7 +113,25 @@ else
         echo " Required packages available continuing with setup "
         echo " "
 fi
+echo "#############################################################################"
 echo " "
+echo "Please choose your configuration option"
+echo "1. Locally Managed"
+echo "2. Web Console Managed"
+echo " "
+echo "Note:" 
+echo "*Locally managed means all config will occur on this device"
+echo "*Web Console Managed means all config will occur in the cloudflare web console"
+echo " "
+read -p "Enter your config choice (1 or 2): " INSTOPTION 
+if ! [[ "$INSTOPTION" =~ ^[+-]?[1-2]+\.?[1-2]*$ ]]
+then
+    echo "The Choice must either 1 or 2"
+    echo "Please try again"
+    echo "exiting the install"
+    exit 0
+fi
+
 echo "#############################################################################"
 echo " "
 echo "Downloading Cloudflared for "$MACHINE_TYPE
@@ -133,6 +151,8 @@ chmod 755 /usr/sbin/cloudflared
 echo " "
 echo "Cloudflared is installed "
 echo " "
+if [ "$INSTOPTION" = 1 ] 
+then
 echo "#############################################################################"
 echo " "
 echo "Time to setup the tunnel"
@@ -239,6 +259,63 @@ chmod 755 /etc/init.d/cloudflared
 echo " "
 /etc/init.d/cloudflared enable
 echo " "
+else
+echo " "
+echo "#############################################################################"
+echo " "
+echo "Time to setup the new tunnel"
+echo "1. Open a web browser and log into your cloudflare account and go to zero Trust"
+echo "2. in Zero Trust go to Access then Tunnels, then Create and name your new Tunnel"
+echo "3. Copy the token carefully and enter it now"
+echo " "
+echo " "
+echo "#############################################################################"
+echo " "
+read -p "Enter your tunnel token: " TUNTOKEN
+echo " "
+echo "Setting up Web Service"
+
+cat << EOF > /etc/init.d/cloudflared
+#!/bin/sh /etc/rc.common
+# Cloudflared tunnel service script
+# Script run cloudflared as a service 
+# Copyright (C) 2022 C. Brown (dev@coralesoft)
+# GNU General Public License
+# Last revised 10/09/2022
+# version 2022.9.1
+# 
+#######################################################################
+##																
+##	IMPORTANT this needs to be copied into the /etc/init.d/  	
+##	folder with the name cloudlfared 
+##													
+##	https://github.com/Coralesoft/OpenwrtCloudflare	
+##														
+#######################################################################
+USE_PROCD=1
+START=38
+STOP=50
+RESTART=55
+start_service() {
+    # fix the cf buffer issues
+    sysctl -w net.core.rmem_max=2500000 &> /dev/null
+    # Service details
+    procd_open_instance
+    procd_set_param command /usr/sbin/cloudflared tunnel run --token $TUNTOKEN
+    procd_set_param stdout 1
+    procd_set_param stderr 1
+    procd_set_param respawn ${respawn_threshold:-3600} ${respawn_timeout:-5} ${respawn_retry:-5}
+    procd_set_param user
+    procd_close_instance
+}
+EOF
+echo " "
+echo "Setting Permissions"
+chmod 755 /etc/init.d/cloudflared
+echo " "
+/etc/init.d/cloudflared enable
+echo " "
+fi
 echo "Service Created and enabled"
 echo " "
 echo "#############################################################################"
@@ -316,11 +393,17 @@ echo "***************************************************"
 echo "**             Install is complete               **"
 echo "***************************************************"
 echo " "
-echo "Please configure /root/.cloudflared/config.yml with your site details"
-echo " "
-echo "Opening config file in 5 seconds"
-sleep 5
-nano /root/.cloudflared/config.yml
+if [ "$INSTOPTION" = 1 ] 
+        echo "Please configure /root/.cloudflared/config.yml with your site details"
+        echo " "
+        echo "Opening config file in 5 seconds"
+        sleep 5
+        nano /root/.cloudflared/config.yml
+else
+        echo " "
+        echo "Please complete your web configuration in the Cloudflare console"
+        echo " "
+fi
 echo " "
 echo "Starting the tunnel"
 echo " "
