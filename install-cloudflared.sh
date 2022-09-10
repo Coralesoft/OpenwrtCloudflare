@@ -126,7 +126,7 @@ echo " "
 read -p "Enter your config choice (1 or 2): " INSTOPTION 
 if ! [[ "$INSTOPTION" =~ ^[+-]?[1-2]+\.?[1-2]*$ ]]
 then
-    echo "The Choice must either 1 or 2"
+    echo "The Choice must be either 1 or 2"
     echo "Please try again"
     echo "exiting the install"
     exit 0
