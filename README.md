@@ -28,5 +28,8 @@ The script pulls down the latest version of cloudflared and installs it
 This Script cleanly uninstalls / removes cloudflared.
 
 
+## Todo
+
+* [ ] Openwrt LuCI App
 
 
