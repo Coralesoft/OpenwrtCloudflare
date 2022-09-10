@@ -393,7 +393,8 @@ echo "***************************************************"
 echo "**             Install is complete               **"
 echo "***************************************************"
 echo " "
-if [ "$INSTOPTION" = 1 ] 
+if [ "$INSTOPTION" = 1 ]
+then 
         echo "Please configure /root/.cloudflared/config.yml with your site details"
         echo " "
         echo "Opening config file in 5 seconds"
