@@ -19,6 +19,7 @@
 # 2022.8.1     01.08.2022   Updated script to check for packages
 # 2022.8.2     03.08.2022   Updated Cloudflared updater
 # 2022.9.1     10.09.2022   Added new Cloudflare Web install option
+# 2022.11.1    09.11.2022   fixed Typo for x86 installs	
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -29,7 +30,7 @@ echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
 echo "*******************************************************"
 echo " "
-echo "Script Version: 2022.9.1"
+echo "Script Version: 2022.11.1"
 echo " "
 echo "#############################################################################"
 #check machine type
