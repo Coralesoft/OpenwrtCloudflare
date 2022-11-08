@@ -34,7 +34,7 @@ echo " "
 echo "#############################################################################"
 #check machine type
 MACHINE_TYPE=$(uname -m)
-if [ "$MACHINE_TYPE" = "aarch64" ] || [ "$MACHINE_TYPE" = "X86_64" ]
+if [ "$MACHINE_TYPE" = "aarch64" ] || [ "$MACHINE_TYPE" = "x86_64" ] || [ "$MACHINE_TYPE" = "X86_64" ]
 then
 	echo $MACHINE_TYPE" is supported proceeding with install"
 else
