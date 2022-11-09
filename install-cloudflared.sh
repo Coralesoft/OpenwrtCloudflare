@@ -5,7 +5,7 @@
 # Copyright (C) 2022 C. Brown (dev@coralesoft)
 # GNU General Public License
 # Last revised 10/09/2022
-# version 2022.9.1
+# version 2022.11.1
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
