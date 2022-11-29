@@ -5,6 +5,10 @@ or running a machine based on OpenWrt x86\
 This allows both Locally or Web Managed Tunnels\
 Script Version: 2022.11.1
 
+
+https://www.buymeacoffee.com/r6zt79njh5m
+
+
 ### Scripts:
 
 
