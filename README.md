@@ -32,8 +32,9 @@ The script pulls down the latest version of cloudflared and installs it
 This Script cleanly uninstalls / removes cloudflared.
 
 
-## Todo
+## UPD
 
-* [ ] Openwrt LuCI App
+The OpenWrt packages feed now has the `cloudflared` package and Luci Application `luci-app-cloudflared` that provides a GUI for configuration.
+You can install them with the command `opkg install cloudflared luci-app-cloudflared`
 
 
