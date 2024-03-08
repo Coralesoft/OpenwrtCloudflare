@@ -3,7 +3,7 @@
 This install script will install a Cloudflare tunnel on an Raspberry Pi4 running as a OpenWrt Router\
 or running a machine based on OpenWrt x86\
 This allows both Locally or Web Managed Tunnels\
-Script Version: 2023.5.1
+Script Version: 2024.3.1
 
 If you like my work :)
 
