@@ -6,7 +6,6 @@
 # Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft)
 # This software is released under the MIT License.
 # See the LICENSE file in the project root for the full license text.
-
 # Last revised 08/03/2024
 # version 2024.3.1
 #-----------------------------------------------------------------------
