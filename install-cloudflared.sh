@@ -2,10 +2,13 @@
 # Cloudflared install for Locally and Web Managed
 # Script to install cloudflare tunnel on a Raspberry Pi or x86 running OpenWrt
 # or cloudflare tunnels on Openwrt_x86
-# Copyright (C) 2022 C. Brown (dev@coralesoft)
-# GNU General Public License
-# Last revised 08/05/2023
-# version 2023.5.1
+# install-cloudflared.sh - Script to install Cloudflare tunnel on OpenWrt systems
+# Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft)
+# This software is released under the MIT License.
+# See the LICENSE file in the project root for the full license text.
+
+# Last revised 08/03/2024
+# version 2024.3.1
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
@@ -21,6 +24,7 @@
 # 2022.9.1     10.09.2022   Added new Cloudflare Web install option
 # 2022.11.1    09.11.2022   fixed Typo for x86 installs	
 # 2023.5.1     08.05.2023   maintenance and cleanup
+# 2024.3.1     08.03.2024   Script updates an improvements	   
 #
 echo "*******************************************************"
 echo "**                 Installing cloudflared            **"
@@ -31,90 +35,64 @@ echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
 echo "*******************************************************"
 echo " "
-echo "Script Version: 2023.5.1"
+echo "Script Version: 2024.3.1"
 echo " "
 echo "#############################################################################"
 #check machine type
 MACHINE_TYPE=$(uname -m)
-if [ "$MACHINE_TYPE" = "aarch64" ] || [ "$MACHINE_TYPE" = "x86_64" ] || [ "$MACHINE_TYPE" = "X86_64" ]
-then
-	echo $MACHINE_TYPE" is supported proceeding with install"
-else
-	echo $MACHINE_TYPE" is not supported exiting the install"
-	exit 0
-fi
-if [ "$MACHINE_TYPE" = "aarch64" ]
-then
-	INSTALL_TYPE=arm64
-else
-	INSTALL_TYPE=amd64
-fi	
-#check space
+case "$MACHINE_TYPE" in
+    aarch64)
+        INSTALL_TYPE=arm64
+        ;;
+    x86_64|X86_64)
+        INSTALL_TYPE=amd64
+        ;;
+    *)
+        echo "$MACHINE_TYPE is not supported. Exiting the install."
+        exit 0
+        ;;
+esac
+echo "$MACHINE_TYPE is supported, proceeding with the install."
+
+# Check available storage space
+# Required space in KB (~70MB)
 SPACE_REQ=72472
-SPACE_AVAIL=$(df / | tr -d "\n"| awk '{print $10}')
-AVAIL=$(df -h / | tr -d "\n"| awk '{print $10}')
+
+# Fetch the available disk space in KB and human-readable format
+SPACE_AVAIL=$(df / | awk 'NR==2 {print $4}')
+AVAIL_HUMAN=$(df -h / | awk 'NR==2 {print $4}')
+
 echo " "
-echo "Checking Space avaialble is greater then 70Mb"
+echo "Checking if available space is greater than 70 MB..."
 echo " "
-if [ "$SPACE_AVAIL" -lt "$SPACE_REQ" ];
-then
-        echo "$AVAIL space is available";
-        echo "You do not have enough free space to commence the install";
-        echo "Please increase root partition size";
-        echo " ";
-        echo "*** Installation will cease, no changes have been made";
-        echo " ";
-        echo "#############################################################################";
-        echo " ";
-        exit 0;
+
+# Compare the available space with the required space
+if [ "$SPACE_AVAIL" -lt "$SPACE_REQ" ]; then
+    echo "Available space: $AVAIL_HUMAN"
+    echo "Insufficient disk space for Cloudflared installation."
+    echo "At least 70 MB of free space is required."
+    echo
+    echo "*** Installation aborted. Please increase root partition size."
+    exit 1
+else
+    echo "Sufficient disk space detected: $AVAIL_HUMAN available."
 fi
-echo " "
-echo "Theres is enough space to install Cloudflared"
-echo "$AVAIL is availalable for use"
+
 echo " "
 echo "#############################################################################"
 echo " "
 echo "Checking the correct tools are installed on the system"
-if ! [ -f "/usr/bin/nano" ] || ! [ -f "/usr/libexec/wget-ssl" ] || ! [ -f "/usr/bin/jq" ] || ! [ -f "/usr/bin/curl" ]
-then
-        echo " "
-        echo "Packages are missing, Updating packages"
-        opkg update
-        if ! [ -f "/usr/bin/nano" ]
-        then
-                echo " "
-                echo "Installing nano"
-                opkg install nano
-                echo " "
+REQUIRED_PKGS="nano wget-ssl jq curl"
+for pkg in $REQUIRED_PKGS; do
+    if ! opkg list-installed | grep -q $pkg; then
+        echo "Package $pkg is missing. Installing..."
+        opkg update && opkg install $pkg
+        if [ $? -ne 0 ]; then
+            echo "Failed to install $pkg, exiting."
+            exit 1
         fi
-	if ! [ -f "/usr/bin/curl" ]
-        then
-                echo " "
-                echo "Installing curl"
-                opkg install curl
-                echo " "
-        fi
-        if ! [ -f "/usr/libexec/wget-ssl" ]
-        then
-                echo " "
-                echo "Installing wget-ssl"
-                opkg install wget-ssl
-                echo " "
-        fi
-		if ! [ -f "/usr/bin/jq" ]
-        then
-                echo " "
-                echo "Installing jq a JSON processor "
-                opkg install jq
-                echo " "
-        fi
-        echo "Required packages are now installed"
-        echo " "
-else
-        echo " "
-        echo " Required packages available continuing with setup "
-        echo " "
-fi
+    fi
+done
 echo "#############################################################################"
 echo " "
 echo "Please choose your configuration option"
@@ -224,10 +202,12 @@ cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
 # Script to run cloudflared as a service 
-# Copyright (C) 2022 - 2023 C. Brown (dev@coralesoft)
-# GNU General Public License
-# Last revised 08/05/2023
-# version 2023.5.1
+# Cloudflared tunnel service script - Manages Cloudflared tunnel as a service on OpenWrt systems
+# Copyright (C) 2022 - 2024 C. Brown (dev@coralesoft)
+# This software is released under the MIT License.
+# See the LICENSE file in the project root for the full license text.
+# Last revised 08/03/2024
+# version 2024.3.1
 # 
 #######################################################################
 ##																
@@ -279,10 +259,12 @@ cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
 # Script run cloudflared as a service 
-# Copyright (C) 2022-2023 C. Brown (dev@coralesoft)
-# GNU General Public License
-# Last revised 08/05/2023
-# version 2023.5.1
+# Cloudflared tunnel service script - Manages Cloudflared tunnel as a service on OpenWrt systems
+# Copyright (C) 2022 - 2024 C. Brown (dev@coralesoft)
+# This software is released under the MIT License.
+# See the LICENSE file in the project root for the full license text.
+# Last revised 08/03/2024
+# version 2024.3.1
 # 
 #######################################################################
 ##																
@@ -326,10 +308,12 @@ cat << EOF > /usr/sbin/cloudflared-update
 #!/bin/sh /etc/rc.common
 # Cloudflared update service
 # Script to update cloudflared Daemon when a new version is released
-# Copyright (C) 2022 - 2023 C. Brown (dev@coralesoft)
-# GNU General Public License
-# Last revised 08/05/2023
-# version 2023.5.1
+# Cloudflared update service script - Manages Cloudflared updates
+# Copyright (C) 2022 - 2024 C. Brown (dev@coralesoft)
+# This software is released under the MIT License.
+# See the LICENSE file in the project root for the full license text.
+# Last revised 08/03/2024
+# version 2024.3.1
 #
 #
 echo "***************************************************"
@@ -383,8 +367,17 @@ EOF
 echo " "
 chmod 755 /usr/sbin/cloudflared-update
 echo " "
-sed -i -e '1i30 12 * * * /usr/sbin/cloudflared-update' /etc/crontabs/root
-/etc/init.d/cron restart
+
+# Check if the cron job already exists
+CRON_JOB="30 12 * * * /usr/sbin/cloudflared-update"
+if crontab -l | grep -Fq "$CRON_JOB" ; then
+    echo "Cron job for cloudflared-update already exists. Skipping addition."
+else
+    echo "Adding cron job for cloudflared-update."
+    (crontab -l 2>/dev/null; echo "$CRON_JOB") | crontab -
+    /etc/init.d/cron restart
+    echo "Cron job added and cron service restarted."
+fi
 echo " "
 rm cloudflared-linux-$INSTALL_TYPE*
 echo " "

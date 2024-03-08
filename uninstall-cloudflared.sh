@@ -1,10 +1,11 @@
 #!/bin/sh /etc/rc.common
 # Cloudflared install
 # Script to un-install cloudflare tunnel on a Raspberry Pi or x86 running OpenWrt
-# Copyright (C) 2022-2023 C. Brown (dev@coralesoft)
-# GNU General Public License
-# Last revised 08/05/2023
-# version 2023.05.1
+# uninstall-cloudflared.sh - Script to uninstall Cloudflare tunnel on OpenWrt systems
+# Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft)
+# This software is released under the MIT License.
+# Last revised 08/03/2024
+# version 2024.03.1
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Inital Release
@@ -15,6 +16,7 @@
 # 2022.8.1    01-08-2022   Make script more robust 
 # 2022.9.2    11-09-2022   Added support for Web Managed config 
 # 2023.5.1    08-05-2023   Cleanup scripts
+# 2024.3.1    08-03-2024   New Release
 #
 echo "#############################################################################"
 echo " "
@@ -62,15 +64,16 @@ then
 	rm /usr/sbin/cloudflared
 fi
 
-if crontab -l | grep -Fq '/usr/sbin/cloudflared-update'
-then
-	echo "Removing crontab entrys"
-	crontab -l | grep -v '/usr/sbin/cloudflared-update' | crontab -
-	echo " "
-	echo "Restarting Cron jobs"
-	/etc/init.d/cron restart
-	echo " "
+# Removing Cloudflared's cron job, if it exists
+CRON_JOB="/usr/sbin/cloudflared-update"
+if crontab -l | grep -q "$CRON_JOB"; then
+    echo "Removing Cloudflared's cron job..."
+    (crontab -l | grep -v "$CRON_JOB") | crontab -
 fi
+echo "Restarting Cron jobs"
+/etc/init.d/cron restart
+echo " "
+
 echo "Uninstall is completed"
 echo " "
 echo "#############################################################################"
