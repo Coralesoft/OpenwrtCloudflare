@@ -3,7 +3,7 @@
 # Script to install cloudflare tunnel on a Raspberry Pi or x86 running OpenWrt
 # or cloudflare tunnels on Openwrt_x86
 # install-cloudflared.sh - Script to install Cloudflare tunnel on OpenWrt systems
-# Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft)
+# Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft.nz)
 # This software is released under the MIT License.
 # See the LICENSE file in the project root for the full license text.
 # Last revised 08/03/2024
