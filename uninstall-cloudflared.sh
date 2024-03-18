@@ -2,7 +2,7 @@
 # Cloudflared uninstall
 # Script to un-install cloudflare tunnel on a Raspberry Pi or x86 running OpenWrt
 # uninstall-cloudflared.sh - Script to uninstall Cloudflare tunnel on OpenWrt systems
-# Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft)
+# Copyright (C) 2022 - 2024 C. Brown(dev@coralesoft.nz)
 # This software is released under the MIT License.
 # Last revised 08/03/2024
 # version 2024.03.1
