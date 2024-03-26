@@ -54,8 +54,8 @@ esac
 echo "$MACHINE_TYPE is supported, proceeding with the install."
 
 # Check available storage space
-# Required space in KB (~70MB)
-SPACE_REQ=72472
+# Required space in KB (~65MB)
+SPACE_REQ=66560
 
 # Fetch the available disk space in KB and human-readable format
 SPACE_AVAIL=$(df / | awk 'NR==2 {print $4}')
