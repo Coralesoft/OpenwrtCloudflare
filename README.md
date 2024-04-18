@@ -1,3 +1,5 @@
+
+
 # Supports Raspberry Pi 4 and x86 based OpenWrt Routers setting up Cloudflare tunnels
 
 This install script will install a Cloudflare tunnel on an Raspberry Pi4 running as a OpenWrt Router\
@@ -11,6 +13,8 @@ If you like my work :)
 
 ### Scripts:
 
+to install
+`code` git clone https://github.com/Coralesoft/OpenwrtCloudflare.git && cd OpenwrtCloudflare && chmod +x install-cloudflared.sh && ./install-cloudflared.sh
 
 
 ## install-cloudflared.sh
