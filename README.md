@@ -13,8 +13,16 @@ If you like my work :)
 
 ### Scripts:
 
-to install
-`code` git clone https://github.com/Coralesoft/OpenwrtCloudflare.git && cd OpenwrtCloudflare && chmod +x install-cloudflared.sh && ./install-cloudflared.sh
+## To Install
+```
+git clone https://github.com/Coralesoft/OpenwrtCloudflare.git && cd OpenwrtCloudflare && chmod +x install-cloudflared.sh && ./install-cloudflared.sh
+```
+
+## To uninstall
+```
+cd OpenwrtCloudflare && chmod +x uninstall-cloudflared.sh && ./uninstall-cloudflared.sh
+```
+
 
 
 ## install-cloudflared.sh
