@@ -10,7 +10,7 @@ This repository includes:
 
 ## Prerequisites
 - **Compatible Hardware**: Raspberry Pi or x86 devices running OpenWrt.
-- **Administrative Access**: You need to have root access on your device to run these scripts.
+- **Administrative Access**: You need to have root access on your device to run these scripts. 
 
 ## Getting Started
 To clone this repository to your OpenWrt device:
