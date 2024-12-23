@@ -7,8 +7,8 @@
 # Copyright (C) 2022 - 2024 C. Brown (dev@coralesoft.nz)
 # This software is released under the MIT License.
 # See the LICENSE file in the project root for the full license text.
-# Last revised 20/12/2024
-# Version: 2024.12.1
+# Last revised 23/12/2024
+# Version: 2024.12.2
 #-----------------------------------------------------------------------
 # Version      Date         Notes:
 # 1.0                       Initial Release
@@ -26,6 +26,7 @@
 # 2023.5.1     08.05.2023   Maintenance and cleanup
 # 2024.3.1     08.03.2024   Script updates and improvements
 # 2024.12.1    20.12.2024   Modularised script functions
+# 2024.12.2    23.12.2024   Added back the Cloudflared Daemon auto update -- will make this optional next
 # 
 # Description:
 # This script automates the installation and setup of Cloudflared on OpenWrt devices.
@@ -50,7 +51,7 @@ INSTALL_TYPE=""      # Machine-specific binary type
 # Check available disk space
 check_space() {
 	echo " "
-	echo "#############################################################################"
+	echo "-----------------------------------------------------------------------------"
 	echo " "
     echo "Checking available storage space..."
     SPACE_AVAIL=$(df / | awk 'NR==2 {print $4}')
@@ -80,7 +81,7 @@ check_machine_type() {
 # Install required packages
 install_packages() {
 	echo " "
-	echo "#############################################################################"
+	echo "-----------------------------------------------------------------------------"
 	echo " "
     echo "Checking if required packages are installed..."
     for pkg in $REQUIRED_PKGS; do
@@ -98,9 +99,6 @@ install_packages() {
 
 # Download and install Cloudflared
 install_cloudflared() {
-	echo " "
-	echo "#############################################################################"
-	echo " "
     echo "Downloading Cloudflared for $MACHINE_TYPE..."
     wget --show-progress -q "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE" -O cloudflared
     chmod 755 cloudflared
@@ -108,10 +106,11 @@ install_cloudflared() {
     echo "Cloudflared installation complete."
 }
 
+
 # Configure the Cloudflared tunnel
 setup_tunnel() {
 	echo " "
-	echo "#############################################################################"
+	echo "-----------------------------------------------------------------------------"
 	echo " "
     echo "Please choose your configuration option:"
     echo "     1. Locally Managed"
@@ -132,7 +131,7 @@ setup_tunnel() {
 # Local tunnel setup
 setup_local_tunnel() {
 	echo " "
-	echo "#############################################################################"
+	echo "-----------------------------------------------------------------------------"
 	echo " "
     echo "Initiating local tunnel setup..."
     sleep 5
@@ -163,6 +162,11 @@ credentials-file: $JSON
 ingress:
   - hostname: $DOMAIN
     service: http://localhost:80
+  # Uncomment and configure as needed
+  #- hostname: netdata.mydomain.nz
+  #  service: http://localhost:8880
+  #- hostname: ssh.mydomain.nz
+  #  service: ssh://192.168.1.1:22
   - service: http_status:404
 EOF
     echo "Tunnel configuration saved at /root/.cloudflared/config.yml."
@@ -171,7 +175,7 @@ EOF
 # Web console-managed tunnel setup
 setup_web_tunnel() {
 	echo " "
-	echo "#############################################################################"
+	echo "-----------------------------------------------------------------------------"
 	echo " "
     echo "Follow these steps to configure a web console-managed tunnel:"
     echo "   1. Log into your Cloudflare account."
@@ -183,16 +187,17 @@ setup_web_tunnel() {
 
 # Configure Cloudflared as a service
 configure_service() {
+	echo " "
+	echo "-----------------------------------------------------------------------------"
+	echo " "
     echo "Configuring Cloudflared as a service..."
-    
+    CMD=""
     if [ -n "$TUNTOKEN" ]; then
-        # Web Console-Managed Tunnel
         CMD="cloudflared tunnel run --token $TUNTOKEN"
     else
-        # Locally Managed Tunnel
         CMD="cloudflared tunnel --config /root/.cloudflared/config.yml run"
     fi
-    
+
     cat << EOF > /etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service script
@@ -201,8 +206,8 @@ configure_service() {
 # Copyright (C) 2022 - 2024 C. Brown (dev@coralesoft)
 # This software is released under the MIT License.
 # See the LICENSE file in the project root for the full license text.
-# Last revised 20/12/2024
-# version 2024.12.1
+# Last revised 23/12/2024
+# version 2024.12.2
 # 
 #######################################################################
 ##																
@@ -216,6 +221,9 @@ USE_PROCD=1
 START=38
 STOP=50
 start_service() {
+    # fix the cf buffer issues
+    sysctl -w net.core.rmem_max=2500000 &> /dev/null
+    # Service details
     procd_open_instance
     procd_set_param command $CMD
     procd_set_param stdout 1
@@ -229,8 +237,53 @@ EOF
     /etc/init.d/cloudflared enable
 }
 
+# Cloudflared Updater
+setup_updater() {
+	echo " "
+	echo "-----------------------------------------------------------------------------"
+	echo " "
+    echo "Setting up Cloudflared updater..."
+    cat << 'EOF' > /usr/sbin/cloudflared-update
+#!/bin/sh
+#!/bin/sh /etc/rc.common
+# Cloudflared update service
+# Script to update cloudflared Daemon when a new version is released
+# Cloudflared update service script - Manages Cloudflared updates
+# Copyright (C) 2022 - 2025 C. Brown (dev@coralesoft)
+# This software is released under the MIT License.
+# See the LICENSE file in the project root for the full license text.
+# Last revised 23/12/2024
+# version 2024.12.2
+#
+#
+echo "***************************************************"
+echo "**      Updating cloudflared Deamon              **"
+echo "** github.com/Coralesoft/OpenwrtCloudflare       **"
+echo "***************************************************"
+echo " "
+echo " "
+LATEST=$(curl -sL https://api.github.com/repos/cloudflare/cloudflared/releases/latest | jq -r ".tag_name")
+VERSION_OLD=$(cloudflared -v | awk '{print $3}')
+if [ "$VERSION_OLD" = "$LATEST" ]; then
+    echo "Cloudflared is already up-to-date."
+else
+    echo "Updating Cloudflared to the latest version..."
+    /etc/init.d/cloudflared stop
+    wget --show-progress -q https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE -O /usr/sbin/cloudflared
+    chmod 755 /usr/sbin/cloudflared
+    /etc/init.d/cloudflared start
+    echo "Cloudflared updated successfully to version $LATEST."
+fi
+EOF
+    chmod 755 /usr/sbin/cloudflared-update
+    echo "Cloudflared updater setup complete."
+}
+
 # Add Cloudflared update cron job
 setup_cron() {
+	echo " "
+	echo "-----------------------------------------------------------------------------"
+	echo " "
     CRON_JOB="30 12 * * * /usr/sbin/cloudflared-update"
     if crontab -l 2>/dev/null | grep -qF "$CRON_JOB"; then
         echo "Cron job for Cloudflared updates already exists."
@@ -243,6 +296,7 @@ setup_cron() {
 }
 
 # Main Script Execution
+
 echo "*******************************************************"
 echo "**               Installing Cloudflared              **"
 echo "**                                                   **"
@@ -252,10 +306,9 @@ echo "**                dev@coralesoft.nz                  **"
 echo "**                                                   **"
 echo "*******************************************************"
 echo "**                                                   **"
-echo "**    Script Version: 2024.12.1                       **"
+echo "**    Script Version: 2024.12.2                       **"
 echo "**                                                   **"
 echo "*******************************************************"
-
 
 # Run pre-checks
 check_space
@@ -273,17 +326,19 @@ setup_tunnel
 # Configure service
 configure_service
 
+# Setup Cloudflared updater
+setup_updater
+
 # Setup cron job for updates
 setup_cron
 
 # Start service as the last step
-echo "Attempting to start the Cloudflared service..."
+echo "Starting the Cloudflared service..."
 if ! /etc/init.d/cloudflared start > /dev/null 2>&1; then
     echo "Error: Failed to start Cloudflared service."
     exit 1
 fi
 
-# Confirm service status
 if ps | grep -q "[c]loudflared"; then
     echo "Cloudflared service is running successfully."
 else
@@ -291,7 +346,6 @@ else
     exit 1
 fi
 
-# Completion message
 echo "*******************************************************"
 echo "**          Cloudflared Installation Complete       **"
 echo "*******************************************************"
