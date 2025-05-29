@@ -57,7 +57,7 @@ check_space() {
     SPACE_AVAIL=$(df / | awk 'NR==2 {print $4}')
     AVAIL_HUMAN=$(df -h / | awk 'NR==2 {print $4}')
     if [ "$SPACE_AVAIL" -lt "$SPACE_REQ" ]; then
-        echo "Error: Insufficient space. Available: $AVAIL_HUMAN, Required: 70 MB."
+        echo "Error: Insufficient space. Available: $AVAIL_HUMAN, Required: 65 MB."
         exit 1
     else
         echo "Disk space check passed: $AVAIL_HUMAN available."
