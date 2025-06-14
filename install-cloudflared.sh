@@ -191,7 +191,7 @@ configure_service() {
   cat <<EOF >/etc/init.d/cloudflared
 #!/bin/sh /etc/rc.common
 # Cloudflared tunnel service
-# Version: 2025.5.1
+# Version: 2025.6.1
 
 USE_PROCD=1
 START=38
