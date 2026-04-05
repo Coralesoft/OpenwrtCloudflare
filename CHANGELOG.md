@@ -4,6 +4,7 @@
 
 | Version      | Date         | Notes                                                                                                                           |
 |--------------|--------------|---------------------------------------------------------------------------------------------------------------------------------|
+| **2026.4.1** | 06.04.2026   | Added apk support for OpenWrt 25.12+ alongside opkg. Improved init script: `START=99`, `--no-autoupdate`, WAN-up restart trigger. Installer now detects existing installs and asks before overwriting. Cleaned up the OpenWrt package if present (we use our own binary). General script cleanup. |
 | **2025.6.1** | 14.06.2025   | Added full rollback on failure (cleanup of service, binary, config and cron); enforced root-only install check; moved config directory to `/etc/cloudflared`; enhanced installer prompts (cancel option, colourised prompts); updated updater script to use `wget` with baked-in architecture placeholder; improved cron management for auto-updates. |
 | 2025.5.1     | 29.05.2025   | Introduced `print_info`/`print_error` functions; added ANSI-coloured output (green for instructions, red for errors); refactored messaging; added optional automatic update via cron. |
 | 2024.12.2    | 23.12.2024   | Added back the Cloudflared Daemon auto-update – will make this optional next.                                                   |

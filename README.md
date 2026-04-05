@@ -1,19 +1,17 @@
-# OpenWrt Cloudflare Tunnel Installer and Uninstaller v2025.6.1
+# OpenWrt Cloudflare Tunnel Installer and Uninstaller v2026.4.1
 
-Welcome to the **OpenWrt Cloudflare Tunnel Installer and Uninstaller** project! This repository contains scripts that automate installation, configuration and uninstallation of Cloudflare Tunnels on OpenWrt systems, suitable for both Raspberry Pi and x86 platforms.
+Scripts to install, configure and uninstall Cloudflare Tunnels on OpenWrt, for both Raspberry Pi and x86 platforms. Downloads cloudflared directly from GitHub and handles tunnel setup and service configuration.
 
-## Overview
-This repository includes:
-1. **`install-cloudflared.sh`** – Installs Cloudflared, guides through tunnel setup (local or web-managed), configures as an init.d service, installs updater and optionally schedules daily updates.
-2. **`uninstall-cloudflared.sh`** – Reverses all changes: stops & disables service, removes binaries, configs, updater and cron jobs.
+## What's included
+1. **`install-cloudflared.sh`** – Downloads cloudflared, walks through tunnel setup (local or web-managed), sets up the init.d service, and installs an updater with optional daily cron.
+2. **`uninstall-cloudflared.sh`** – Removes everything: service, binary, updater, configs, and cron job.
 
 ## Prerequisites
-- **Compatible Hardware**: Raspberry Pi or x86 devices running OpenWrt.  
-- **Administrative Access**: Must run as root (installer enforces UID 0).  
-- **Internet**: Required to download binaries and updates.
+- Raspberry Pi or x86 running OpenWrt 24.10+ (opkg) or 25.12+ (apk)
+- Root access
+- Internet connection
 
 ## Getting Started
-Clone the repo to your device:
 ```bash
 git clone https://github.com/Coralesoft/OpenwrtCloudflare.git
 cd OpenwrtCloudflare
@@ -21,78 +19,68 @@ cd OpenwrtCloudflare
 
 ## Installation
 
-### Quick Start Command
+### Quick Start
 ```bash
 chmod +x install-cloudflared.sh && sudo ./install-cloudflared.sh
 ```
 
-### Step-by-Step Instructions
-1. **Download** the installer:
+### Or step by step
+1. Download the installer:
    ```bash
    wget https://raw.githubusercontent.com/Coralesoft/OpenwrtCloudflare/main/install-cloudflared.sh
    ```
-2. **Make executable**:
+2. Make it executable:
    ```bash
    chmod +x install-cloudflared.sh
    ```
-3. **Run** the installer:
+3. Run it:
    ```bash
    sudo ./install-cloudflared.sh
    ```
-4. **Follow prompts**:
-   - Choose local or web-managed tunnel.
-   - Enter tunnel name and domain or paste token.
-   - Opt in for cron-based auto-updates if desired.
+4. Follow the prompts – pick local or web-managed, enter your tunnel details, optionally enable daily auto-updates.
 
 ## Uninstallation
 
-### Quick Start Command
+### Quick Start
 ```bash
 chmod +x uninstall-cloudflared.sh && sudo ./uninstall-cloudflared.sh
 ```
 
-### Step-by-Step Instructions
-1. **Download** the uninstaller (if not present):
+### Or step by step
+1. Download the uninstaller:
    ```bash
    wget https://raw.githubusercontent.com/Coralesoft/OpenwrtCloudflare/main/uninstall-cloudflared.sh
    ```
-2. **Make executable**:
+2. Make it executable:
    ```bash
    chmod +x uninstall-cloudflared.sh
    ```
-3. **Run** the uninstaller:
+3. Run it:
    ```bash
    sudo ./uninstall-cloudflared.sh
    ```
-4. **Verify removal**: No `cloudflared` service, binary or configs should remain.
 
 ## Updating
 
-### Automatic Updates
-If auto-updates were enabled, a daily cron job at 12:30 will run `/usr/sbin/cloudflared-update`.
+### Automatic
+If you enabled the cron job during install, cloudflared is checked daily at 12:30 and updated if a new release is out.
 
-### Manual Update
-Run on demand:
+### Manual
 ```bash
 /usr/sbin/cloudflared-update
 ```
-This will:
-1. Check the latest release on GitHub.  
-2. Compare to your installed version.  
-3. Download and replace if newer.  
-4. Restart the `cloudflared` service.  
 
 ## Troubleshooting
-- **Insufficient space**: Installer will exit with a message.  
-- **Unsupported architecture**: Only `aarch64` and `x86_64` are supported.  
-- **Permission errors**: Ensure you run as root.  
-- **Rollback**: On error, installer cleans up all changes.  
+- **Not enough space** – Installer checks for ~65 MB free and will tell you if there isn't enough.
+- **Unsupported architecture** – Only aarch64 and x86_64 are supported.
+- **Permission errors** – Run as root.
+- **Install fails halfway through** – The installer rolls back automatically.
 
 ## Support
 For issues or feature requests, contact **C. Brown** at [dev@coralesoft.nz](mailto:dev@coralesoft.nz).
 
 ## Support the Project
-If this project helps you streamline your OpenWrt setup and you’d like to support ongoing development, consider buying me a coffee. Your contribution keeps the creativity flowing and helps sustain future updates.
+If you find this useful, consider buying me a coffee:
 
 <a href="https://www.buymeacoffee.com/r6zt79njh5m" target="_blank">
   <img src="https://cdn.buymeacoffee.com/buttons/v2/default-yellow.png" alt="Buy Me A Coffee" style="height:60px;width:217px;" />
