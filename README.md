@@ -1,6 +1,6 @@
 # OpenWrt Cloudflare Tunnel Installer and Uninstaller v2026.4.1
 
-Scripts to install, configure and uninstall Cloudflare Tunnels on OpenWrt, for both Raspberry Pi and x86 platforms. Downloads cloudflared directly from GitHub and handles tunnel setup and service configuration.
+Scripts to install, configure and uninstall Cloudflare Tunnels on OpenWrt, for arm based routers (GL.iNet GL-MT6000), Raspberry Pi and x86 platforms. Downloads cloudflared directly from GitHub and handles tunnel setup and service configuration.
 
 ## What's included
 1. **`install-cloudflared.sh`** – Downloads cloudflared, walks through tunnel setup (local or web-managed), sets up the init.d service, and installs an updater with optional daily cron.
