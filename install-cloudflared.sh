@@ -3,7 +3,7 @@
 # Downloads cloudflared from GitHub and walks you through setting up
 # a tunnel (local or web-managed).
 # (C) 2022-2026 C. Brown (dev@coralesoft.nz), MIT License
-# Version: 2026.4.1
+# Version: 2026.6.0
 #-----------------------------------------------------------------------
 
 set -euo pipefail
@@ -14,6 +14,17 @@ set -euo pipefail
 print_info()   { printf "\033[0;32m%s\033[0m\n" "$1"; }
 print_error()  { printf "\033[0;31m%s\033[0m\n" "$1"; }
 print_prompt() { printf "\033[0;33m%s\033[0m"   "$1"; }
+
+# download $1 to file $2 with whatever fetcher works (wget, then curl)
+fetch() {
+  if command -v wget >/dev/null 2>&1 && wget -O "$2" "$1"; then
+    return 0
+  fi
+  if command -v curl >/dev/null 2>&1 && curl -fL -o "$2" "$1"; then
+    return 0
+  fi
+  return 1
+}
 
 # work out which package manager we're dealing with
 if command -v apk >/dev/null 2>&1; then
@@ -120,12 +131,12 @@ install_packages() {
   print_info "Installing dependencies via $PKG_MGR..."
   if [ "$PKG_MGR" = "apk" ]; then
     apk update
-    for pkg in nano wget-ssl jq; do
+    for pkg in nano jq; do
       apk info -e "$pkg" >/dev/null 2>&1 || apk add "$pkg" || die "Failed to install $pkg"
     done
   else
     opkg update
-    for pkg in nano wget-ssl jq; do
+    for pkg in nano jq; do
       opkg list-installed | grep -q "^$pkg " || opkg install "$pkg" || die "Failed to install $pkg"
     done
   fi
@@ -134,9 +145,8 @@ install_packages() {
 
 install_cloudflared() {
   print_info "Downloading cloudflared for $INSTALL_TYPE..."
-  wget -q --show-progress -O /tmp/cloudflared \
-    "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE" \
-    || die "Download failed"
+  fetch "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE" \
+    /tmp/cloudflared || die "Download failed"
   chmod 755 /tmp/cloudflared
   mv /tmp/cloudflared /usr/sbin/cloudflared
   print_info "Installed to /usr/sbin/cloudflared"
@@ -238,11 +248,22 @@ setup_updater() {
 print_info()  { printf "\033[0;32m%s\033[0m\n" "$1"; }
 print_error() { printf "\033[0;31m%s\033[0m\n" "$1"; }
 
+# download $1 to file $2 with whatever fetcher works (wget, then curl)
+fetch() {
+  if command -v wget >/dev/null 2>&1 && wget -O "$2" "$1"; then
+    return 0
+  fi
+  if command -v curl >/dev/null 2>&1 && curl -fL -o "$2" "$1"; then
+    return 0
+  fi
+  return 1
+}
+
 INSTALL_TYPE=__INSTALL_TYPE__
 TMPFILE="/tmp/cloudflared.$$"
 
 print_info "Checking latest release…"
-LATEST=$(wget -qO- https://api.github.com/repos/cloudflare/cloudflared/releases/latest | jq -r ".tag_name")
+LATEST=$(fetch https://api.github.com/repos/cloudflare/cloudflared/releases/latest - | jq -r ".tag_name")
 [ -n "$LATEST" ] || { print_error "Couldn't fetch latest version"; exit 1; }
 
 OLD=$(cloudflared -v 2>/dev/null | awk '{print $3}')
@@ -257,9 +278,8 @@ sleep 2
 pgrep cloudflared >/dev/null && { killall -q cloudflared; sleep 1; }
 
 print_info "Downloading cloudflared $LATEST…"
-wget -q --show-progress -O "$TMPFILE" \
-  "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE" \
-  || { print_error "Download failed"; rm -f "$TMPFILE"; exit 1; }
+fetch "https://github.com/cloudflare/cloudflared/releases/latest/download/cloudflared-linux-$INSTALL_TYPE" \
+  "$TMPFILE" || { print_error "Download failed"; rm -f "$TMPFILE"; exit 1; }
 
 chmod 755 "$TMPFILE"
 mv "$TMPFILE" /usr/sbin/cloudflared

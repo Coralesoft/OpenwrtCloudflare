@@ -1,4 +1,4 @@
-# OpenWrt Cloudflare Tunnel Installer and Uninstaller v2026.4.1
+# OpenWrt Cloudflare Tunnel Installer and Uninstaller v2026.6.0
 
 Scripts to install, configure and uninstall Cloudflare Tunnels on OpenWrt, for Raspberry Pi, aarch64 based routers (GL.iNet GL-MT6000) and x86 platforms. Downloads cloudflared directly from GitHub and handles tunnel setup and service configuration.
 
@@ -11,30 +11,27 @@ Scripts to install, configure and uninstall Cloudflare Tunnels on OpenWrt, for R
 - Root access
 - Internet connection
 
-## Getting Started
-```bash
-git clone https://github.com/Coralesoft/OpenwrtCloudflare.git
-cd OpenwrtCloudflare
-```
-
 ## Installation
+Run these on the router as root (OpenWrt logs you in as root, so there's no `sudo`).
 
 ### Quick Start
-```bash
-chmod +x install-cloudflared.sh && sudo ./install-cloudflared.sh
+```sh
+wget https://raw.githubusercontent.com/Coralesoft/OpenwrtCloudflare/main/install-cloudflared.sh
+chmod +x install-cloudflared.sh
+./install-cloudflared.sh
 ```
 
-### Or step by step
+### Step by step
 1. Download the installer:
-   ```bash
+   ```sh
    wget https://raw.githubusercontent.com/Coralesoft/OpenwrtCloudflare/main/install-cloudflared.sh
    ```
 2. Make it executable:
-   ```bash
+   ```sh
    chmod +x install-cloudflared.sh
    ```
 3. Run it:
-   ```bash
+   ```sh
    ./install-cloudflared.sh
    ```
 4. Follow the prompts – pick local or web-managed, enter your tunnel details, optionally enable daily auto-updates.
@@ -42,22 +39,24 @@ chmod +x install-cloudflared.sh && sudo ./install-cloudflared.sh
 ## Uninstallation
 
 ### Quick Start
-```bash
-chmod +x uninstall-cloudflared.sh && sudo ./uninstall-cloudflared.sh
+```sh
+wget https://raw.githubusercontent.com/Coralesoft/OpenwrtCloudflare/main/uninstall-cloudflared.sh
+chmod +x uninstall-cloudflared.sh
+./uninstall-cloudflared.sh
 ```
 
-### Or step by step
+### Step by step
 1. Download the uninstaller:
-   ```bash
+   ```sh
    wget https://raw.githubusercontent.com/Coralesoft/OpenwrtCloudflare/main/uninstall-cloudflared.sh
    ```
 2. Make it executable:
-   ```bash
+   ```sh
    chmod +x uninstall-cloudflared.sh
    ```
 3. Run it:
-   ```bash
-   sudo ./uninstall-cloudflared.sh
+   ```sh
+   ./uninstall-cloudflared.sh
    ```
 
 ## Updating
@@ -66,7 +65,7 @@ chmod +x uninstall-cloudflared.sh && sudo ./uninstall-cloudflared.sh
 If you enabled the cron job during install, cloudflared is checked daily at 12:30 and updated if a new release is out.
 
 ### Manual
-```bash
+```sh
 /usr/sbin/cloudflared-update
 ```
 

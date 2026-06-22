@@ -4,6 +4,7 @@
 
 | Version      | Date         | Notes                                                                                                                           |
 |--------------|--------------|---------------------------------------------------------------------------------------------------------------------------------|
+| **2026.6.0** | 22.06.2026   | Fixed apk install failure on OpenWrt 25.12+: dropped the `wget-ssl` dependency, which forced apk to remove `uclient-fetch` (the wget provider) and left apk with no working downloader mid-transaction, breaking wget entirely. Downloads now use the stock wget with an automatic curl fallback, and the GNU-only `--show-progress` flag has been removed. |
 | **2026.4.1** | 06.04.2026   | Added apk support for OpenWrt 25.12+ alongside opkg. Improved init script, Installer now detects existing installs and asks before overwriting. Cleaned up the OpenWrt package if present. General script cleanup. |
 | 2025.6.1 | 14.06.2025   | Added full rollback on failure (cleanup of service, binary, config and cron); enforced root-only install check; moved config directory to `/etc/cloudflared`; enhanced installer prompts (cancel option, colourised prompts); updated updater script to use `wget` with baked-in architecture placeholder; improved cron management for auto-updates. |
 | 2025.5.1     | 29.05.2025   | Introduced `print_info`/`print_error` functions; added ANSI-coloured output (green for instructions, red for errors); refactored messaging; added optional automatic update via cron. |

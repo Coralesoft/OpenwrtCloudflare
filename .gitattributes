@@ -1,0 +1,3 @@
+# These run on OpenWrt's ash – keep them LF so the shell doesn't choke on \r
+*.sh   text eol=lf
+*.yml  text eol=lf
