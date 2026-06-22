@@ -35,7 +35,7 @@ chmod +x install-cloudflared.sh && sudo ./install-cloudflared.sh
    ```
 3. Run it:
    ```bash
-   sudo ./install-cloudflared.sh
+   ./install-cloudflared.sh
    ```
 4. Follow the prompts – pick local or web-managed, enter your tunnel details, optionally enable daily auto-updates.
 
