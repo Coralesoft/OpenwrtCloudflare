@@ -1,6 +1,6 @@
-# an example yml file for the inital config
-tunnel: 2g1c1ada-b3d4-4378-9219-3511a39b3158
-credentials-file: /etc/cloudflared/2g1c1ada-b3d4-4378-9219-3511a39b3158.json
+# an example yml file for the initial config
+tunnel: <tunnel-uuid>
+credentials-file: /etc/cloudflared/<tunnel-uuid>.json
 ingress:
   - hostname: opent.mydomain.nz
     service: http://localhost:80

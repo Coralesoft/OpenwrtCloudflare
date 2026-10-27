@@ -1,7 +1,7 @@
 #!/bin/sh
 # Cloudflared uninstaller for OpenWrt
 # (C) 2022-2026 C. Brown (dev@coralesoft.nz), MIT License
-# Version: 2026.6.0
+# Version: 2026.10.0
 #-----------------------------------------------------------------------
 
 echo "#############################################################################"
@@ -71,6 +71,18 @@ if [ -f "$CRON_FILE" ] && grep -Fq "/usr/sbin/cloudflared-update" "$CRON_FILE"; 
   sed -i "\#/usr/sbin/cloudflared-update#d" "$CRON_FILE"
 fi
 /etc/init.d/cron reload >/dev/null 2>&1
+
+# remove the post-sysupgrade restore hook from rc.local
+if [ -f /etc/rc.local ] && grep -q 'cloudflared-restore-hook' /etc/rc.local; then
+  echo "Removing restore hook from /etc/rc.local..."
+  sed -i '/^# --- cloudflared-restore-hook/,/^# --- end cloudflared-restore-hook ---$/d' /etc/rc.local
+fi
+rm -f /tmp/cloudflared-restore.log
+
+# and our lines from the sysupgrade keep-list
+if [ -f /etc/sysupgrade.conf ]; then
+  sed -i '\#^/etc/cloudflared/$#d; \#^/etc/init.d/cloudflared$#d; \#^/usr/sbin/cloudflared-update$#d' /etc/sysupgrade.conf
+fi
 
 # if someone installed the OpenWrt package too, clean that up
 if command -v apk >/dev/null 2>&1; then
